@@ -1,0 +1,137 @@
+---
+const services = [
+  {
+    num: "01",
+    title: "Księgowość i rachunkowość",
+    desc: "Prowadzenie KPiR, ksiąg handlowych i ryczałtu. Pełna, rzetelna ewidencja Twoich operacji.",
+  },
+  {
+    num: "02",
+    title: "Kadry i płace",
+    desc: "Umowy, listy płac, rozliczenia ZUS i pełna dokumentacja pracownicza — zgodnie z przepisami.",
+  },
+  {
+    num: "03",
+    title: "Doradztwo podatkowe",
+    desc: "Optymalizacja, rozliczenia roczne i bieżące konsultacje. Płać dokładnie tyle, ile trzeba.",
+  },
+  {
+    num: "04",
+    title: "Zakładanie firmy",
+    desc: "Rejestracja działalności i wybór najkorzystniejszej formy opodatkowania — krok po kroku.",
+  },
+  {
+    num: "05",
+    title: "Rozliczenia ZUS i US",
+    desc: "Terminowe deklaracje i pełen kontakt z urzędami. Bez stresu, bez kar za opóźnienia.",
+  },
+  {
+    num: "06",
+    title: "Doradztwo biznesowe",
+    desc: "Analizy finansowe i wsparcie w decyzjach. Patrzymy na liczby, byś Ty patrzył w przyszłość.",
+  },
+];
+---
+
+<section id="uslugi">
+  <div class="container">
+    <div class="intro">
+      <div class="eyebrow">Usługi</div>
+      <h2>Kompleksowa obsługa księgowa w jednym miejscu.</h2>
+      <p>
+        Od bieżącej księgowości po doradztwo — zajmiemy się formalnościami,
+        abyś mógł skupić się na rozwoju firmy.
+      </p>
+    </div>
+
+    <div class="grid">
+      {services.map((s) => (
+        <div class="card">
+          <div class="card-num">{s.num}</div>
+          <h3>{s.title}</h3>
+          <p>{s.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    padding: 104px 64px 96px;
+  }
+
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .intro {
+    max-width: 620px;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: oklch(0.5 0.1 32);
+  }
+
+  h2 {
+    font-size: 44px;
+    font-weight: 600;
+    color: oklch(0.22 0.02 256);
+    line-height: 1.08;
+    margin-top: 14px;
+    text-wrap: balance;
+  }
+
+  .intro p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: oklch(0.5 0.018 256);
+    margin-top: 18px;
+    text-wrap: pretty;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 52px;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid oklch(0.91 0.006 256);
+    border-radius: 8px;
+    padding: 30px;
+    transition: box-shadow 0.2s;
+  }
+
+  .card:hover {
+    box-shadow: 0 8px 24px rgba(20, 28, 45, 0.08);
+  }
+
+  .card-num {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: oklch(0.52 0.1 32);
+  }
+
+  .card h3 {
+    font-size: 21px;
+    font-weight: 600;
+    color: oklch(0.24 0.02 256);
+    margin-top: 18px;
+  }
+
+  .card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: oklch(0.5 0.018 256);
+    margin-top: 10px;
+  }
+</style>

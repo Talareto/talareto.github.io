@@ -1,0 +1,201 @@
+---
+// Contact.astro
+---
+
+<section id="kontakt">
+  <div class="container">
+    <div class="info-col">
+      <div class="eyebrow">Kontakt</div>
+      <h2>Porozmawiajmy o Twojej księgowości</h2>
+      <p>
+        Zostaw wiadomość — odpowiadamy w ciągu jednego dnia roboczego i
+        proponujemy bezpłatną konsultację bez zobowiązań.
+      </p>
+
+      <div class="contact-details">
+        <div class="detail">
+          <span class="detail-label">Telefon</span>
+          <span class="detail-value">+48 600 000 000</span>
+        </div>
+        <div class="detail">
+          <span class="detail-label">E-mail</span>
+          <span class="detail-value">kontakt@canlead.pl</span>
+        </div>
+        <div class="detail">
+          <span class="detail-label">Adres</span>
+          <span class="detail-value">ul. Przykładowa 12, 00-000 Warszawa</span>
+        </div>
+        <div class="detail">
+          <span class="detail-label">Godziny pracy</span>
+          <span class="detail-value">Pn–Pt, 8:00–16:00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-row">
+        <div class="field">
+          <label for="name">Imię i nazwisko</label>
+          <input id="name" type="text" placeholder="Jan Kowalski" />
+        </div>
+        <div class="field">
+          <label for="phone">Telefon</label>
+          <input id="phone" type="tel" placeholder="+48 600 000 000" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input id="email" type="email" placeholder="jan@firma.pl" />
+      </div>
+      <div class="field">
+        <label for="message">Wiadomość</label>
+        <textarea id="message" rows="4" placeholder="W czym możemy pomóc?"></textarea>
+      </div>
+      <button type="button" class="submit-btn">Wyślij wiadomość</button>
+      <p class="disclaimer">
+        Wysyłając formularz akceptujesz przetwarzanie danych w celu kontaktu.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    padding: 104px 64px 96px;
+    border-top: 1px solid oklch(0.93 0.006 256);
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 64px;
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: oklch(0.5 0.1 32);
+  }
+
+  h2 {
+    font-size: 42px;
+    font-weight: 600;
+    color: oklch(0.22 0.02 256);
+    line-height: 1.1;
+    margin-top: 14px;
+    text-wrap: balance;
+  }
+
+  .info-col > p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: oklch(0.5 0.018 256);
+    margin-top: 18px;
+    max-width: 400px;
+    text-wrap: pretty;
+  }
+
+  .contact-details {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .detail {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .detail-label {
+    font-size: 13px;
+    color: oklch(0.55 0.018 256);
+  }
+
+  .detail-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: oklch(0.26 0.02 256);
+  }
+
+  /* Form */
+  .form-card {
+    background: #fff;
+    border: 1px solid oklch(0.91 0.006 256);
+    border-radius: 8px;
+    padding: 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: oklch(0.42 0.02 256);
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 13px 15px;
+    border-radius: 8px;
+    border: 1px solid oklch(0.9 0.006 256);
+    background: oklch(0.99 0.003 256);
+    font-size: 15px;
+    font-family: "Manrope", sans-serif;
+    color: oklch(0.25 0.02 256);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: oklch(0.46 0.1 32);
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .submit-btn {
+    padding: 15px;
+    border-radius: 8px;
+    border: none;
+    background: oklch(0.46 0.1 32);
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Manrope", sans-serif;
+    transition: opacity 0.2s;
+  }
+
+  .submit-btn:hover {
+    opacity: 0.88;
+  }
+
+  .disclaimer {
+    font-size: 12.5px;
+    color: oklch(0.58 0.018 256);
+    text-align: center;
+    line-height: 1.5;
+  }
+</style>

@@ -1,0 +1,139 @@
+---
+const values = [
+  {
+    title: "Terminowość",
+    desc: "Dotrzymujemy każdego terminu — Ty nie musisz ich pilnować.",
+    dark: false,
+  },
+  {
+    title: "Przejrzystość",
+    desc: "Jasne raporty i stały wgląd w sytuację Twojej firmy.",
+    dark: false,
+  },
+  {
+    title: "Bezpieczeństwo",
+    desc: "Pełna zgodność z przepisami i ochrona Twoich danych.",
+    dark: false,
+  },
+  {
+    title: "Dostępność",
+    desc: "Dedykowany opiekun, który zna Twoją firmę i odbiera telefon.",
+    dark: true,
+  },
+];
+---
+
+<section id="o-nas">
+  <div class="container">
+    <div class="text-col">
+      <div class="eyebrow">O nas</div>
+      <h2>Partner, który rozumie liczby i Twój biznes.</h2>
+      <p>
+        CanLead to zespół doświadczonych księgowych i doradców, którzy od ponad
+        15 lat prowadzą rozliczenia firm w całej Polsce. Łączymy precyzję z
+        nowoczesnymi narzędziami, dzięki czemu masz dostęp do swoich danych
+        zawsze, gdy ich potrzebujesz.
+      </p>
+      <p>
+        Wierzymy, że dobra księgowość to nie tylko obowiązek — to realna
+        przewaga w prowadzeniu firmy.
+      </p>
+    </div>
+
+    <div class="values-grid">
+      {values.map((v) => (
+        <div class={`value-card ${v.dark ? "dark" : ""}`}>
+          <div class="value-title">{v.title}</div>
+          <p>{v.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    padding: 96px 64px;
+    background: #fff;
+    border-top: 1px solid oklch(0.93 0.006 256);
+    border-bottom: 1px solid oklch(0.93 0.006 256);
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: center;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: oklch(0.5 0.1 32);
+  }
+
+  h2 {
+    font-size: 42px;
+    font-weight: 600;
+    color: oklch(0.22 0.02 256);
+    line-height: 1.1;
+    margin-top: 14px;
+    text-wrap: balance;
+  }
+
+  .text-col p {
+    font-size: 17px;
+    line-height: 1.65;
+    color: oklch(0.5 0.018 256);
+    margin-top: 20px;
+    text-wrap: pretty;
+  }
+
+  .text-col p + p {
+    margin-top: 16px;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .value-card {
+    background: oklch(0.985 0.004 256);
+    border: 1px solid oklch(0.91 0.006 256);
+    border-radius: 8px;
+    padding: 26px;
+  }
+
+  .value-card.dark {
+    background: oklch(0.22 0.02 256);
+    border-color: oklch(0.22 0.02 256);
+  }
+
+  .value-title {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: oklch(0.24 0.02 256);
+  }
+
+  .dark .value-title {
+    color: #fff;
+  }
+
+  .value-card p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: oklch(0.5 0.018 256);
+    margin-top: 8px;
+  }
+
+  .dark p {
+    color: oklch(0.72 0.015 256);
+  }
+</style>

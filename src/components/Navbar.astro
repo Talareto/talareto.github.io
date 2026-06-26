@@ -1,0 +1,101 @@
+---
+// Navbar.astro — brak propsów, statyczny komponent
+---
+
+<nav>
+  <div class="logo">
+    <div class="logo-icon">
+      <div class="logo-triangle"></div>
+    </div>
+    <span class="logo-name">CanLead</span>
+  </div>
+
+  <div class="links">
+    <a href="#uslugi">Usługi</a>
+    <a href="#o-nas">O nas</a>
+    <a href="#kontroling">Analizy</a>
+    <a href="#cennik">Cennik</a>
+    <a href="#blog">Blog</a>
+    <a href="#kontakt">Kontakt</a>
+  </div>
+
+  <a href="#kontakt" class="cta">Umów konsultację</a>
+</nav>
+
+<style>
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 72px;
+    border-bottom: 1px solid oklch(0.3 0.02 256);
+    position: relative;
+    z-index: 3;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: oklch(0.46 0.1 32);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-triangle {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 7px 0 7px 11px;
+    border-color: transparent transparent transparent #fff;
+    margin-left: 2px;
+  }
+
+  .logo-name {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: #fff;
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    font-size: 15px;
+    font-weight: 500;
+    color: oklch(0.72 0.015 256);
+  }
+
+  .links a {
+    color: inherit;
+    transition: color 0.2s;
+  }
+
+  .links a:hover {
+    color: #fff;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 11px 22px;
+    border-radius: 8px;
+    background: oklch(0.46 0.1 32);
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    transition: opacity 0.2s;
+  }
+
+  .cta:hover {
+    opacity: 0.88;
+  }
+</style>

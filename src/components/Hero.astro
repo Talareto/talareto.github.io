@@ -1,0 +1,205 @@
+---
+import Navbar from "./Navbar.astro";
+---
+
+<section class="hero">
+  <!-- Animowane tło -->
+  <div class="bg-effects" aria-hidden="true">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Fale SVG -->
+    <svg class="wave wave-3" viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <g class="wave-anim-slow">
+        <path d="M0,140 C200,96 400,96 600,140 C800,184 1000,184 1200,140 L1200,300 L0,300 Z" fill="rgba(61,73,92,0.45)" />
+        <path d="M1200,140 C1400,96 1600,96 1800,140 C2000,184 2200,184 2400,140 L2400,300 L1200,300 Z" fill="rgba(61,73,92,0.45)" />
+      </g>
+    </svg>
+    <svg class="wave wave-2" viewBox="0 0 1200 240" preserveAspectRatio="none">
+      <g class="wave-anim-mid">
+        <path d="M0,120 C220,150 380,70 600,110 C820,150 980,70 1200,120 L1200,240 L0,240 Z" fill="rgba(158,61,52,0.30)" />
+        <path d="M1200,120 C1420,150 1580,70 1800,110 C2020,150 2180,70 2400,120 L2400,240 L1200,240 Z" fill="rgba(158,61,52,0.30)" />
+      </g>
+    </svg>
+    <svg class="wave wave-1" viewBox="0 0 1200 170" preserveAspectRatio="none">
+      <g class="wave-anim-fast">
+        <path d="M0,80 C180,52 420,52 600,80 C780,108 1020,108 1200,80 L1200,170 L0,170 Z" fill="rgba(31,39,55,0.92)" />
+        <path d="M1200,80 C1380,52 1620,52 1800,80 C1980,108 2220,108 2400,80 L2400,170 L1200,170 Z" fill="rgba(31,39,55,0.92)" />
+      </g>
+    </svg>
+  </div>
+
+  <Navbar />
+
+  <div class="hero-content">
+    <div class="badge">
+      <span class="badge-dot"></span>Biuro rachunkowe · Cała Polska
+    </div>
+    <h1>Twoja księgowość pod pełną kontrolą.</h1>
+    <p>
+      CanLead to spokój, przejrzystość i terminowość. Prowadzimy księgi, kadry
+      i podatki — Ty rozwijasz firmę.
+    </p>
+    <div class="hero-ctas">
+      <a href="#kontakt" class="btn-primary">Umów bezpłatną konsultację</a>
+      <a href="#uslugi" class="btn-secondary">Poznaj usługi</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: oklch(0.22 0.02 256);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* --- Tło --- */
+  .bg-effects {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(30px);
+  }
+
+  .glow-1 {
+    width: 540px;
+    height: 540px;
+    left: -130px;
+    top: -90px;
+    background: radial-gradient(circle, oklch(0.46 0.1 32 / 0.22), transparent 68%);
+    animation: clGlow 14s ease-in-out infinite;
+  }
+
+  .glow-2 {
+    width: 500px;
+    height: 500px;
+    right: -110px;
+    bottom: -140px;
+    background: radial-gradient(circle, oklch(0.55 0.04 256 / 0.28), transparent 70%);
+    animation: clGlow 17s ease-in-out infinite reverse;
+  }
+
+  .grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(oklch(1 0 0 / 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(1 0 0 / 0.035) 1px, transparent 1px);
+    background-size: 46px 46px;
+    -webkit-mask-image: radial-gradient(circle at 50% 42%, black, transparent 78%);
+    mask-image: radial-gradient(circle at 50% 42%, black, transparent 78%);
+  }
+
+  .wave {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .wave-3 { height: 300px; }
+  .wave-2 { height: 240px; }
+  .wave-1 { height: 170px; }
+
+  .wave-anim-slow  { animation: clWave 26s linear infinite; }
+  .wave-anim-mid   { animation: clWave 18s linear infinite reverse; }
+  .wave-anim-fast  { animation: clWave 12s linear infinite; }
+
+  /* --- Treść --- */
+  .hero-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 108px 64px 132px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 15px;
+    border-radius: 8px;
+    background: oklch(0.27 0.02 256);
+    border: 1px solid oklch(0.34 0.02 256);
+    font-size: 13px;
+    font-weight: 600;
+    color: oklch(0.78 0.015 256);
+    margin-bottom: 32px;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: oklch(0.62 0.13 32);
+    display: inline-block;
+  }
+
+  h1 {
+    font-size: 74px;
+    line-height: 1.02;
+    font-weight: 700;
+    color: #fff;
+    text-wrap: balance;
+  }
+
+  p {
+    font-size: 20px;
+    line-height: 1.6;
+    color: oklch(0.72 0.015 256);
+    max-width: 620px;
+    margin: 28px auto 0;
+    text-wrap: pretty;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    border-radius: 8px;
+    background: oklch(0.46 0.1 32);
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    transition: opacity 0.2s;
+  }
+
+  .btn-primary:hover { opacity: 0.88; }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid oklch(0.38 0.02 256);
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    transition: border-color 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: oklch(0.55 0.02 256);
+  }
+</style>
