@@ -18,7 +18,7 @@ const values = [
   {
     title: "Dostępność",
     desc: "Dedykowany opiekun, który zna Twoją firmę i odbiera telefon.",
-    dark: true,
+    dark: false,
   },
 ];
 ---
@@ -108,6 +108,23 @@ const values = [
     border: 1px solid oklch(0.91 0.006 256);
     border-radius: 8px;
     padding: 26px;
+  }
+  .value-card {
+  transition: background 0.2s, border-color 0.2s;
+  cursor: default;
+}
+
+  .value-card:hover:not(.dark) {
+    background: oklch(0.22 0.02 256);
+    border-color: oklch(0.22 0.02 256);
+  }
+
+  .value-card:hover:not(.dark) .value-title {
+    color: #fff;
+  }
+
+  .value-card:hover:not(.dark) p {
+    color: oklch(0.72 0.015 256);
   }
 
   .value-card.dark {
