@@ -1,5 +1,4 @@
 ---
-// Navbar.astro — brak propsów, statyczny komponent
 ---
 
 <nav>
@@ -10,17 +9,38 @@
     <span class="logo-name">CanLead</span>
   </div>
 
-  <div class="links">
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="links" id="nav-links">
     <a href="#uslugi">Usługi</a>
     <a href="#o-nas">O nas</a>
     <a href="#kontroling">Analizy</a>
     <a href="#cennik">Cennik</a>
     <a href="#blog">Blog</a>
     <a href="#kontakt">Kontakt</a>
+    
   </div>
 
-  <a href="#kontakt" class="cta">Umów konsultację</a>
+  <a href="#kontakt" class="cta cta-desktop">Umów konsultację</a>
 </nav>
+
+<script>
+  const btn = document.getElementById("hamburger");
+  const links = document.getElementById("nav-links");
+  btn?.addEventListener("click", () => {
+    links?.classList.toggle("open");
+    btn.classList.toggle("active");
+  });
+  // Zamknij menu po kliknięciu w link
+  links?.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", () => {
+      links.classList.remove("open");
+      btn?.classList.remove("active");
+    });
+  });
+</script>
 
 <style>
   nav {
@@ -30,7 +50,7 @@
     padding: 22px 72px;
     border-bottom: 1px solid oklch(0.3 0.02 256);
     position: relative;
-    z-index: 3;
+    z-index: 10;
   }
 
   .logo {
@@ -47,6 +67,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
   }
 
   .logo-triangle {
@@ -79,9 +100,7 @@
     transition: color 0.2s;
   }
 
-  .links a:hover {
-    color: #fff;
-  }
+  .links a:hover { color: #fff; }
 
   .cta {
     display: inline-flex;
@@ -93,9 +112,78 @@
     font-weight: 600;
     font-size: 14px;
     transition: opacity 0.2s;
+    white-space: nowrap;
   }
 
-  .cta:hover {
-    opacity: 0.88;
+  .cta:hover { opacity: 0.88; }
+
+  /* Hamburger — ukryty na desktop */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 11;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.25s, opacity 0.25s;
+  }
+
+  .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .cta-mobile { display: none; }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 820px) {
+    nav {
+      padding: 18px 20px;
+      flex-wrap: wrap;
+    }
+
+    .hamburger { display: flex; }
+    .cta-desktop { display: none; }
+
+    .links {
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      width: 100%;
+      background: oklch(0.18 0.02 256);
+      border-top: 1px solid oklch(0.3 0.02 256);
+      margin-top: 12px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .links.open { display: flex; }
+
+    .links a {
+      width: 100%;
+      padding: 14px 20px;
+      border-bottom: 1px solid oklch(0.27 0.02 256);
+      font-size: 16px;
+    }
+
+    .links a:last-child { border-bottom: none; }
+
+    .cta-mobile {
+      display: block;
+      text-align: center;
+      background: oklch(0.46 0.1 32);
+      color: #fff !important;
+      padding: 15px 20px !important;
+    }
   }
 </style>

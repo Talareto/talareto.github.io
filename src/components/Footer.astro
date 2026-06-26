@@ -1,22 +1,15 @@
 ---
-// Footer.astro
 ---
 
 <footer>
   <div class="container">
     <div class="brand-col">
       <div class="logo">
-        <div class="logo-icon">
-          <div class="logo-triangle"></div>
-        </div>
+        <div class="logo-icon"><div class="logo-triangle"></div></div>
         <span class="logo-name">CanLead</span>
       </div>
-      <p>
-        Biuro rachunkowe dla firm, które cenią spokój i terminowość.
-        Księgowość, kadry i doradztwo w jednym miejscu.
-      </p>
+      <p>Biuro rachunkowe dla firm, które cenią spokój i terminowość. Księgowość, kadry i doradztwo w jednym miejscu.</p>
     </div>
-
     <div class="link-col">
       <div class="col-title">Usługi</div>
       <a href="#uslugi">Księgowość</a>
@@ -24,7 +17,6 @@
       <a href="#uslugi">Doradztwo podatkowe</a>
       <a href="#uslugi">Zakładanie firmy</a>
     </div>
-
     <div class="link-col">
       <div class="col-title">Firma</div>
       <a href="#o-nas">O nas</a>
@@ -32,7 +24,6 @@
       <a href="#blog">Blog</a>
       <a href="#kontakt">Kontakt</a>
     </div>
-
     <div class="link-col">
       <div class="col-title">Kontakt</div>
       <span>+48 600 000 000</span>
@@ -40,7 +31,6 @@
       <span>ul. Przykładowa 12<br />00-000 Warszawa</span>
     </div>
   </div>
-
   <div class="bottom">
     <span>© 2026 CanLead · NIP 000-000-00-00</span>
     <div class="legal-links">
@@ -51,116 +41,75 @@
 </footer>
 
 <style>
-  footer {
-    background: oklch(0.22 0.02 256);
-    padding: 64px 64px 32px;
-  }
+  footer { background: oklch(0.22 0.02 256); padding: 64px 64px 32px; }
 
   .container {
-    max-width: 1180px;
-    margin: 0 auto;
+    max-width: 1180px; margin: 0 auto;
     display: grid;
     grid-template-columns: 1.6fr 1fr 1fr 1fr;
     gap: 48px;
   }
 
-  /* Logo */
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-  }
+  .logo { display: flex; align-items: center; gap: 11px; }
 
   .logo-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
+    width: 32px; height: 32px; border-radius: 8px;
     background: oklch(0.46 0.1 32);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
 
   .logo-triangle {
-    width: 0;
-    height: 0;
-    border-style: solid;
+    width: 0; height: 0; border-style: solid;
     border-width: 7px 0 7px 11px;
     border-color: transparent transparent transparent #fff;
     margin-left: 2px;
   }
 
-  .logo-name {
-    font-family: "Space Grotesk", sans-serif;
-    font-weight: 600;
-    font-size: 20px;
-    color: #fff;
-  }
+  .logo-name { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 20px; color: #fff; }
 
-  .brand-col p {
-    font-size: 14.5px;
-    line-height: 1.6;
-    color: oklch(0.7 0.015 256);
-    margin-top: 18px;
-    max-width: 300px;
-  }
+  .brand-col p { font-size: 14.5px; line-height: 1.6; color: oklch(0.7 0.015 256); margin-top: 18px; max-width: 300px; }
 
-  /* Link columns */
-  .link-col {
-    display: flex;
-    flex-direction: column;
-    gap: 11px;
-  }
+  .link-col { display: flex; flex-direction: column; gap: 11px; }
 
-  .col-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 5px;
-  }
+  .col-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 5px; }
 
-  .link-col a,
-  .link-col span {
-    font-size: 14.5px;
-    color: oklch(0.7 0.015 256);
-    line-height: 1.5;
-  }
+  .link-col a, .link-col span { font-size: 14.5px; color: oklch(0.7 0.015 256); line-height: 1.5; }
 
-  .link-col a {
-    transition: color 0.2s;
-  }
+  .link-col a { transition: color 0.2s; }
+  .link-col a:hover { color: #fff; }
 
-  .link-col a:hover {
-    color: #fff;
-  }
-
-  /* Bottom bar */
   .bottom {
-    max-width: 1180px;
-    margin: 48px auto 0;
-    padding-top: 24px;
-    border-top: 1px solid oklch(0.3 0.02 256);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 13.5px;
-    color: oklch(0.6 0.015 256);
-    flex-wrap: wrap;
-    gap: 12px;
+    max-width: 1180px; margin: 48px auto 0;
+    padding-top: 24px; border-top: 1px solid oklch(0.3 0.02 256);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13.5px; color: oklch(0.6 0.015 256);
+    flex-wrap: wrap; gap: 12px;
   }
 
-  .legal-links {
-    display: flex;
-    gap: 24px;
-  }
+  .legal-links { display: flex; gap: 24px; }
+  .legal-links a { color: inherit; transition: color 0.2s; }
+  .legal-links a:hover { color: #fff; }
 
-  .legal-links a {
-    color: inherit;
-    transition: color 0.2s;
-  }
+  @media (max-width: 820px) {
+    footer { padding: 48px 20px 24px; }
 
-  .legal-links a:hover {
-    color: #fff;
+    .container {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .brand-col {
+      grid-column: 1 / -1;
+    }
+
+    .brand-col p { max-width: 100%; font-size: 14px; }
+
+    .bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 32px;
+      font-size: 13px;
+    }
   }
 </style>

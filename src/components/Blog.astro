@@ -1,20 +1,8 @@
 ---
 const posts = [
-  {
-    category: "Podatki",
-    title: "Zmiany podatkowe 2026 — co musisz wiedzieć",
-    date: "12 czerwca 2026",
-  },
-  {
-    category: "KSeF",
-    title: "Faktury ustrukturyzowane — jak się przygotować",
-    date: "3 czerwca 2026",
-  },
-  {
-    category: "Poradnik",
-    title: "Ryczałt czy zasady ogólne — jak wybrać formę",
-    date: "27 maja 2026",
-  },
+  { category: "Podatki", title: "Zmiany podatkowe 2026 — co musisz wiedzieć", date: "12 czerwca 2026" },
+  { category: "KSeF", title: "Faktury ustrukturyzowane — jak się przygotować", date: "3 czerwca 2026" },
+  { category: "Poradnik", title: "Ryczałt czy zasady ogólne — jak wybrać formę", date: "27 maja 2026" },
 ];
 ---
 
@@ -27,7 +15,6 @@ const posts = [
       </div>
       <a href="#" class="all-link">Wszystkie artykuły</a>
     </div>
-
     <div class="grid">
       {posts.map((post) => (
         <article class="card">
@@ -53,123 +40,97 @@ const posts = [
     border-top: 1px solid oklch(0.93 0.006 256);
   }
 
-  .container {
-    max-width: 1180px;
-    margin: 0 auto;
-  }
+  .container { max-width: 1180px; margin: 0 auto; }
 
   .header {
-    display: flex;
-    align-items: flex-end;
+    display: flex; align-items: flex-end;
     justify-content: space-between;
-    gap: 24px;
-    flex-wrap: wrap;
+    gap: 24px; flex-wrap: wrap;
   }
 
-  .text {
-    max-width: 620px;
-  }
+  .text { max-width: 620px; }
 
   .eyebrow {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
     color: oklch(0.5 0.1 32);
   }
 
   h2 {
-    font-size: 44px;
-    font-weight: 600;
-    color: oklch(0.22 0.02 256);
-    line-height: 1.08;
-    margin-top: 14px;
-    text-wrap: balance;
+    font-size: 44px; font-weight: 600;
+    color: oklch(0.22 0.02 256); line-height: 1.08;
+    margin-top: 14px; text-wrap: balance;
   }
 
   .all-link {
-    display: inline-flex;
-    align-items: center;
-    padding: 12px 22px;
-    border-radius: 8px;
+    display: inline-flex; align-items: center;
+    padding: 12px 22px; border-radius: 8px;
     border: 1px solid oklch(0.86 0.008 256);
     color: oklch(0.27 0.022 256);
-    font-weight: 600;
-    font-size: 15px;
+    font-weight: 600; font-size: 15px;
+    white-space: nowrap;
     transition: border-color 0.2s;
   }
 
-  .all-link:hover {
-    border-color: oklch(0.6 0.02 256);
-  }
+  .all-link:hover { border-color: oklch(0.6 0.02 256); }
 
   .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-top: 48px;
+    gap: 24px; margin-top: 48px;
   }
 
   .card {
     border: 1px solid oklch(0.91 0.006 256);
-    border-radius: 8px;
-    overflow: hidden;
-    background: #fff;
-    transition: box-shadow 0.2s;
+    border-radius: 8px; overflow: hidden;
+    background: #fff; transition: box-shadow 0.2s;
   }
 
-  .card:hover {
-    box-shadow: 0 8px 24px rgba(20, 28, 45, 0.08);
-  }
+  .card:hover { box-shadow: 0 8px 24px rgba(20,28,45,.08); }
 
   .card-img {
     height: 184px;
-    background: repeating-linear-gradient(
-      135deg,
-      oklch(0.93 0.006 256) 0 12px,
-      oklch(0.96 0.005 256) 12px 24px
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: ui-monospace, "SF Mono", monospace;
-    font-size: 11px;
+    background: repeating-linear-gradient(135deg, oklch(0.93 0.006 256) 0 12px, oklch(0.96 0.005 256) 12px 24px);
+    display: flex; align-items: center; justify-content: center;
+    font-family: ui-monospace, monospace; font-size: 11px;
     color: oklch(0.55 0.018 256);
   }
 
-  .card-body {
-    padding: 24px;
-  }
+  .card-body { padding: 24px; }
 
   .tag {
-    display: inline-flex;
-    padding: 5px 11px;
-    border-radius: 8px;
-    background: oklch(0.96 0.005 256);
-    font-size: 12px;
-    font-weight: 600;
+    display: inline-flex; padding: 5px 11px;
+    border-radius: 8px; background: oklch(0.96 0.005 256);
+    font-size: 12px; font-weight: 600;
     color: oklch(0.45 0.02 256);
   }
 
   .card-body h3 {
-    font-size: 19px;
-    font-weight: 600;
-    color: oklch(0.24 0.02 256);
-    margin-top: 14px;
-    line-height: 1.25;
+    font-size: 19px; font-weight: 600;
+    color: oklch(0.24 0.02 256); margin-top: 14px; line-height: 1.25;
   }
 
   .meta {
-    display: flex;
-    align-items: center;
+    display: flex; align-items: center;
     justify-content: space-between;
-    margin-top: 18px;
-    font-size: 13px;
+    margin-top: 18px; font-size: 13px;
     color: oklch(0.55 0.018 256);
   }
 
-  .read-more {
-    font-weight: 600;
-    color: oklch(0.5 0.1 32);
+  .read-more { font-weight: 600; color: oklch(0.5 0.1 32); }
+
+  @media (max-width: 820px) {
+    section { padding: 64px 20px; }
+
+    h2 { font-size: 30px; }
+
+    .grid {
+      grid-template-columns: 1fr;
+      margin-top: 32px; gap: 16px;
+    }
+
+    .card-img { height: 140px; }
+
+    .card-body h3 { font-size: 17px; }
   }
 </style>
