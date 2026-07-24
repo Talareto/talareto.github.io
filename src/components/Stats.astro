@@ -1,6 +1,6 @@
 ---
 const stats = [
-  { value: "15+",    label: "lat doświadczenia" },
+  { value: "20+",    label: "lat doświadczenia" },
   { value: "300+",   label: "obsługiwanych firm" },
   { value: "100%",   label: "terminowości" },
   { value: "1 dzień", label: "czas odpowiedzi" },
@@ -59,25 +59,12 @@ const stats = [
   }
 
   @media (max-width: 820px) {
-    .stats-wrapper {
-      padding: 0 16px;
-      margin-top: -32px;
-    }
-
-    .stats-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .stat-item {
-      padding: 20px;
-      border-right: 1px solid oklch(0.93 0.006 256);
-      border-bottom: 1px solid oklch(0.93 0.006 256);
-    }
-
+    .stats-wrapper { padding: 0 16px; margin-top: -32px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-item { padding: 20px; border-right: 1px solid oklch(0.93 0.006 256); border-bottom: 1px solid oklch(0.93 0.006 256); }
     .stat-item:nth-child(2) { border-right: none; }
     .stat-item:nth-child(3) { border-bottom: none; }
     .stat-item:nth-child(4) { border-right: none; border-bottom: none; }
-
     .stat-value { font-size: 26px; }
     .stat-label { font-size: 12.5px; }
   }
