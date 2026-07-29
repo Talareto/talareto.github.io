@@ -58,7 +58,6 @@ const categories = [
             <ul class="service-list">
               {cat.services.map((s) => (
                 <li class={`service-item ${s.subtle ? "subtle" : ""}`}>
-                  <div class="service-dot"></div>
                   <div class="service-content">
                     <div class="service-title">{s.title}</div>
                     <div class="service-desc">{s.desc}</div>
@@ -208,14 +207,6 @@ const categories = [
 
   .service-item.subtle { opacity: 0.6; }
   .service-item.subtle:hover { opacity: 1; transition: opacity 0.2s; }
-
-  .service-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: oklch(0.52 0.1 32);
-    flex-shrink: 0;
-    margin-top: 7px;
-  }
 
   .service-title {
     font-size: 15px;
