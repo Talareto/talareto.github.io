@@ -74,7 +74,7 @@ const plans: Plan[] = [
             <span class="plan-period" style={plan.highlighted ? "color:oklch(0.7 0.015 256)" : "color:oklch(0.5 0.018 256)"}>{plan.period}</span>
           </div>
           <p class="plan-desc" style={plan.highlighted ? "color:oklch(0.72 0.015 256)" : "color:oklch(0.5 0.018 256)"}>{plan.desc}</p>
-          <hr style={`border-color:${plan.highlighted ? "oklch(0.32 0.02 256)" : "oklch(0.93 0.006 256)"}`} />
+          <hr class={plan.highlighted ? "hr-dark" : "hr-light"} />
           <ul>
             {plan.features.map((f) => (
               <li style={plan.highlighted ? "color:oklch(0.85 0.012 256)" : "color:oklch(0.35 0.02 256)"}>
@@ -114,6 +114,9 @@ const plans: Plan[] = [
   }
 
   /* Hover swap — desktop only */
+  hr.hr-dark { border-color: oklch(0.32 0.02 256); }
+  hr.hr-light { border-color: oklch(0.93 0.006 256); }
+  .plan-card:not(.highlighted):hover hr { border-color: oklch(1 0 0 / 0.15) !important; }
   .plan-card:not(.highlighted):hover { background: oklch(0.22 0.02 256); border-color: oklch(0.22 0.02 256); box-shadow: 0 16px 40px rgba(20,28,45,.2); }
   .plan-card:not(.highlighted):hover .plan-name { color: oklch(0.78 0.015 256) !important; }
   .plan-card:not(.highlighted):hover .plan-price { color: #fff !important; }
