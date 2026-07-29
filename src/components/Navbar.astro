@@ -3,7 +3,7 @@
 
 <nav>
   <div class="logo">
-    <img src="/Logo_1-1-150x68.jpg" alt="Logo" width="150" height="68" class="logo-icon" />
+    <img class="logo-image" src="/Logo_1-1-150x68.jpg" alt="Logo" width="150" height="68" />
   </div>
 
   <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -66,7 +66,11 @@
     justify-content: center;
     flex-shrink: 0;
   }
-
+  .logo-image {
+    width: 150px;
+    height: 68px;
+    object-fit: contain;
+  }
   .logo-triangle {
     width: 0;
     height: 0;
