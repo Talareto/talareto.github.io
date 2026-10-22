@@ -17,11 +17,10 @@
     <a href="#cennik">Cennik</a>
     <a href="#blog">Blog</a>
     <a href="#kontakt">Kontakt</a>
-    <a href="#kontakt" class="cta cta-desktop">Umów konsultację</a>
     <a href="#kontakt" class="cta-mobile">Umów konsultację</a>
   </div>
 
-  
+  <a href="#kontakt" class="cta cta-desktop">Umów konsultację</a>
 </nav>
 
 <script>
@@ -41,10 +40,11 @@
 </script>
 
 <style>
+  /* Logo | linki na środku | przycisk */
   nav {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
     padding: 22px 72px;
     border-bottom: 1px solid oklch(0.3 0.02 256);
     position: relative;
@@ -56,6 +56,7 @@
     align-items: center;
     gap: 11px;
     border-radius: 20px;
+    justify-self: start;
   }
 
   .logo-image {
@@ -102,12 +103,9 @@
   }
 
   .cta:hover { opacity: 0.88; }
-  .links .cta {
-    color: #fff;
-    margin-left: 8px;
-  }
 
-  .links .cta:hover { color: #fff; }
+  .cta-desktop { justify-self: end; }
+
   /* Hamburger — ukryty na desktop */
   .hamburger {
     display: none;
@@ -135,9 +133,18 @@
 
   .cta-mobile { display: none; }
 
+  /* Węższe laptopy — trochę ciaśniej, żeby się mieściło */
+  @media (max-width: 1150px) {
+    nav { padding: 22px 40px; }
+    .links { gap: 22px; }
+  }
+
   /* ===== MOBILE ===== */
   @media (max-width: 820px) {
     nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       padding: 18px 20px;
       flex-wrap: wrap;
     }
