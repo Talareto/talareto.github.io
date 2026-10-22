@@ -17,10 +17,9 @@
     <a href="#cennik">Cennik</a>
     <a href="#blog">Blog</a>
     <a href="#kontakt">Kontakt</a>
+    <a href="#kontakt" class="cta cta-desktop">Umów konsultację</a>
     <a href="#kontakt" class="cta-mobile">Umów konsultację</a>
   </div>
-
-  <a href="#kontakt" class="cta cta-desktop">Umów konsultację</a>
 </nav>
 
 <script>
@@ -40,10 +39,11 @@
 </script>
 
 <style>
-  /* Logo | linki na środku | przycisk */
+  /* Logo | linki z przyciskiem na środku | pusta kolumna (dla symetrii) */
   nav {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
+    column-gap: 40px;
     align-items: center;
     padding: 22px 72px;
     border-bottom: 1px solid oklch(0.3 0.02 256);
@@ -104,7 +104,10 @@
 
   .cta:hover { opacity: 0.88; }
 
-  .cta-desktop { justify-self: end; }
+  /* Przycisk w menu: biały napis i lekki odstęp od "Kontakt" */
+  .links .cta,
+  .links .cta:hover { color: #fff; }
+  .links .cta-desktop { margin-left: 4px; }
 
   /* Hamburger — ukryty na desktop */
   .hamburger {
