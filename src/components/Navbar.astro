@@ -3,9 +3,9 @@
 
 <nav>
   <div class="nav-inner">
-  <div class="logo">
-    <img class="logo-image" src="/Logo_1-1-150x68.jpg" alt="Logo" width="150" height="68" />
-  </div>
+  <a href="/" class="logo" aria-label="CanLead – strona główna">
+    <img class="logo-image" src="/logo.svg" alt="CanLead" width="140" height="46" />
+  </a>
 
   <button class="hamburger" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -62,16 +62,17 @@
     display: flex;
     align-items: center;
     gap: 11px;
-    border-radius: 20px;
     flex-shrink: 0;
+    transition: opacity 0.2s;
   }
 
   .logo-image {
-    width: 150px;
-    height: 68px;
-    border-radius: 20px;
-    object-fit: contain;
+    display: block;
+    height: 46px;
+    width: auto;
   }
+
+  .logo:hover { opacity: 0.85; }
 
   .logo-name {
     font-family: "Space Grotesk", sans-serif;
@@ -151,6 +152,8 @@
   /* ===== TABLET I MOBILE (menu pod hamburgerem) ===== */
   @media (max-width: 960px) {
     nav { padding: 18px 20px; }
+
+    .logo-image { height: 38px; }
 
     .nav-inner {
       flex-wrap: wrap;
