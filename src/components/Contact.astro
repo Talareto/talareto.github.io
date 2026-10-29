@@ -34,7 +34,7 @@
         <textarea id="message" rows="4" placeholder="W czym możemy pomóc?"></textarea>
       </div>
       <button type="button" class="submit-btn">Wyślij wiadomość</button>
-      <p class="disclaimer">Wysyłając formularz akceptujesz przetwarzanie danych w celu kontaktu.</p>
+      <p class="disclaimer">Wysyłając formularz, akceptujesz przetwarzanie danych w celu kontaktu zgodnie z <a href="/polityka-prywatnosci">polityką prywatności</a>.</p>
     </div>
   </div>
 </section>
@@ -144,4 +144,6 @@
 
     .form-row { grid-template-columns: 1fr; }
   }
+  .disclaimer a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  .disclaimer a:hover { color: oklch(0.46 0.1 32); }
 </style>
