@@ -4,14 +4,14 @@ import Navbar from "./Navbar.astro";
 import heroPhoto from "../assets/hero-zespol.jpg";
 
 interface Props {
-  /** "split" = zdjęcie w ramce obok tekstu, "background" = zdjęcie jako tło, "fade" = zdjęcie po prawej rozmyte w tło */
-  variant?: "split" | "background" | "fade";
+  /** "split" = zdjęcie w ramce obok tekstu, "background" = zdjęcie jako tło, "soft" = tło z celowo rozmytym zdjęciem, "fade" = zdjęcie po prawej rozmyte w tło */
+  variant?: "split" | "background" | "soft" | "fade";
 }
 const { variant = "split" } = Astro.props;
 const photoAlt = "Zespół CanLead podczas spotkania z klientem";
 ---
 
-<section class={`hero hero--${variant}`}>
+<section class={`hero hero--${variant === "soft" ? "background hero--soft" : variant}`}>
   <div class="bg-effects" aria-hidden="true">
     <div class="glow glow-1"></div>
     <div class="glow glow-2"></div>
@@ -40,7 +40,7 @@ const photoAlt = "Zespół CanLead podczas spotkania z klientem";
   <Navbar />
 
   <div class="hero-main">
-  {(variant === "background" || variant === "fade") && (
+  {(variant === "background" || variant === "soft" || variant === "fade") && (
     <div class="bg-photo" aria-hidden="true">
       <Image src={heroPhoto} alt="" widths={[828, 1280, 1680, 2048]} sizes="100vw" quality={88} loading="eager" fetchpriority="high" />
     </div>
@@ -343,6 +343,13 @@ const photoAlt = "Zespół CanLead podczas spotkania z klientem";
 
   .hero--background .hero-content,
   .hero--fade .hero-content { padding-top: 110px; padding-bottom: 170px; }
+
+  /* ---------- 2b. SOFT: tło jak w "background", ale zdjęcie celowo rozmyte (głębia ostrości) ---------- */
+  .hero--soft .bg-photo { overflow: hidden; }
+  .hero--soft .bg-photo img {
+    filter: blur(5px) brightness(1.05);
+    transform: scale(1.06);
+  }
 
   /* ---------- 3. FADE: zdjęcie po prawej, miękko przechodzi w tło ---------- */
   .hero--fade .bg-photo {
