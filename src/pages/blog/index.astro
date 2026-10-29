@@ -1,0 +1,197 @@
+---
+// Lista wszystkich artykułów: /blog
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import PostCard from "../../components/blog/PostCard.astro";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// Kategorie do filtra, w kolejności od najczęstszej
+const counts = new Map<string, number>();
+posts.forEach((p) => counts.set(p.data.category, (counts.get(p.data.category) ?? 0) + 1));
+const categories = [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([c]) => c);
+---
+
+<BaseLayout
+  title="Blog — CanLead"
+  description="Artykuły o podatkach, księgowości i prowadzeniu firmy. Praktyczna wiedza od biura rachunkowego CanLead."
+>
+  <header class="blog-header">
+    <Navbar />
+    <div class="header-inner">
+      <nav class="breadcrumbs" aria-label="Okruszki">
+        <a href="/">Strona główna</a>
+        <span aria-hidden="true">/</span>
+        <span>Blog</span>
+      </nav>
+      <div class="eyebrow">Blog</div>
+      <h1>Wiedza, która pomaga prowadzić firmę.</h1>
+      <p class="lead">
+        Podatki, księgowość i controlling wyjaśnione prostym językiem — z przykładami z życia firm, z którymi pracujemy.
+      </p>
+    </div>
+  </header>
+
+  <main class="blog-main">
+    {categories.length > 1 && (
+      <div class="filters" role="group" aria-label="Filtruj według kategorii">
+        <button type="button" class="chip is-active" data-filter="all">
+          Wszystkie <span class="count">{posts.length}</span>
+        </button>
+        {categories.map((c) => (
+          <button type="button" class="chip" data-filter={c}>
+            {c} <span class="count">{counts.get(c)}</span>
+          </button>
+        ))}
+      </div>
+    )}
+
+    {posts.length > 0 ? (
+      <ul class="grid">
+        {posts.map((post) => (
+          <li data-category={post.data.category}>
+            <PostCard post={post} />
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="empty">Pierwsze artykuły już wkrótce.</p>
+    )}
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  // Filtr kategorii — działa bez przeładowania strony; bez JavaScriptu widać po prostu wszystkie artykuły
+  const chips = document.querySelectorAll<HTMLButtonElement>(".chip");
+  const items = document.querySelectorAll<HTMLLIElement>(".grid > li");
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const filter = chip.dataset.filter;
+      chips.forEach((c) => c.classList.toggle("is-active", c === chip));
+      items.forEach((item) => {
+        item.hidden = filter !== "all" && item.dataset.category !== filter;
+      });
+    });
+  });
+</script>
+
+<style>
+  .blog-header { background: oklch(0.22 0.02 256); }
+
+  .header-inner {
+    max-width: 1028px;
+    margin: 0 auto;
+    padding: 44px 64px 72px;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    gap: 8px;
+    font-size: 13.5px;
+    color: oklch(0.6 0.015 256);
+  }
+  .breadcrumbs a { color: oklch(0.72 0.015 256); transition: color 0.2s; }
+  .breadcrumbs a:hover { color: #fff; }
+
+  .eyebrow {
+    margin-top: 32px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: oklch(0.72 0.09 32);
+  }
+
+  h1 {
+    margin-top: 14px;
+    max-width: 760px;
+    font-size: 52px;
+    line-height: 1.06;
+    font-weight: 700;
+    color: #fff;
+    text-wrap: balance;
+  }
+
+  .lead {
+    margin-top: 18px;
+    max-width: 620px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: oklch(0.74 0.015 256);
+  }
+
+  .blog-main {
+    max-width: 1028px;
+    margin: 0 auto;
+    padding: 48px 64px 96px;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 1px solid oklch(0.88 0.008 256);
+    background: #fff;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: oklch(0.35 0.02 256);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .chip:hover { border-color: oklch(0.6 0.02 256); }
+  .chip.is-active {
+    background: oklch(0.22 0.02 256);
+    border-color: oklch(0.22 0.02 256);
+    color: #fff;
+  }
+  .count {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: oklch(0.95 0.005 256);
+    color: oklch(0.45 0.02 256);
+  }
+  .chip.is-active .count { background: oklch(1 0 0 / 0.15); color: #fff; }
+
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+  .grid > li[hidden] { display: none; }
+
+  .empty { font-size: 17px; color: oklch(0.5 0.018 256); }
+
+  @media (max-width: 960px) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 820px) {
+    .header-inner { padding: 28px 20px 48px; }
+    h1 { font-size: 34px; }
+    .lead { font-size: 16px; }
+    .blog-main { padding: 32px 20px 64px; }
+    .filters { flex-wrap: nowrap; overflow-x: auto; margin: 0 -20px 24px; padding: 0 20px 4px; }
+    .chip { white-space: nowrap; flex-shrink: 0; }
+    .grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  }
+</style>
