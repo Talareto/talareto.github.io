@@ -1,8 +1,17 @@
 ---
+import { Image } from "astro:assets";
 import Navbar from "./Navbar.astro";
+import heroPhoto from "../assets/hero-zespol.jpg";
+
+interface Props {
+  /** "split" = zdjęcie w ramce obok tekstu, "background" = zdjęcie jako tło, "fade" = zdjęcie po prawej rozmyte w tło */
+  variant?: "split" | "background" | "fade";
+}
+const { variant = "split" } = Astro.props;
+const photoAlt = "Zespół CanLead podczas spotkania z klientem";
 ---
 
-<section class="hero">
+<section class={`hero hero--${variant}`}>
   <div class="bg-effects" aria-hidden="true">
     <div class="glow glow-1"></div>
     <div class="glow glow-2"></div>
@@ -30,16 +39,32 @@ import Navbar from "./Navbar.astro";
 
   <Navbar />
 
-  <div class="hero-content">
-    <h1>Twoja księgowość pod pełną kontrolą.</h1>
-    <p>
-      CanLead to spokój, przejrzystość i terminowość. Prowadzimy księgi, kadry
-      i podatki — Ty rozwijasz firmę.
-    </p>
-    <div class="hero-ctas">
-      <a href="#kontakt" class="btn-primary">Umów bezpłatną konsultację</a>
-      <a href="#uslugi" class="btn-secondary">Poznaj usługi</a>
+  <div class="hero-main">
+  {(variant === "background" || variant === "fade") && (
+    <div class="bg-photo" aria-hidden="true">
+      <Image src={heroPhoto} alt="" widths={[800, 1024]} sizes="(max-width: 820px) 100vw, 60vw" loading="eager" fetchpriority="high" />
     </div>
+  )}
+
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1>Twoja księgowość pod pełną kontrolą.</h1>
+      <p>
+        CanLead to spokój, przejrzystość i terminowość. Prowadzimy księgi, kadry
+        i podatki — Ty rozwijasz firmę.
+      </p>
+      <div class="hero-ctas">
+        <a href="#kontakt" class="btn-primary">Umów bezpłatną konsultację</a>
+        <a href="#uslugi" class="btn-secondary">Poznaj usługi</a>
+      </div>
+    </div>
+
+    {variant === "split" && (
+      <figure class="hero-photo">
+        <Image src={heroPhoto} alt={photoAlt} widths={[480, 720, 1024]} sizes="(max-width: 820px) 100vw, 420px" loading="eager" fetchpriority="high" />
+      </figure>
+    )}
+  </div>
   </div>
 </section>
 
@@ -216,5 +241,156 @@ import Navbar from "./Navbar.astro";
       font-size: 12px;
       margin-bottom: 24px;
     }
+  }
+
+  /* =====================================================
+     WARIANTY Z ZDJĘCIEM
+     ===================================================== */
+
+  /* Wspólne: treść wyrównana do szerokości navbaru i statystyk (900px) */
+  .hero--split .hero-content,
+  .hero--background .hero-content,
+  .hero--fade .hero-content {
+    max-width: 1028px;
+    text-align: left;
+  }
+
+  .hero--split p,
+  .hero--background p,
+  .hero--fade p { margin-left: 0; margin-right: 0; }
+
+  .hero--split .hero-ctas,
+  .hero--background .hero-ctas,
+  .hero--fade .hero-ctas { justify-content: flex-start; }
+
+  /* ---------- 1. SPLIT: tekst + zdjęcie w ramce ---------- */
+  .hero--split .hero-content {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    align-items: center;
+    gap: 56px;
+  }
+
+  .hero--split h1 { font-size: 54px; line-height: 1.05; }
+  .hero--split p { font-size: 18px; margin-top: 22px; }
+  .hero--split .hero-ctas { margin-top: 32px; flex-wrap: wrap; }
+
+  .hero-photo {
+    position: relative;
+    margin: 0;
+  }
+
+  /* Ozdobna ramka w kolorze marki, przesunięta za zdjęciem */
+  .hero-photo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translate(16px, 16px);
+    border: 1.5px solid oklch(0.62 0.13 32 / 0.7);
+    border-radius: 16px;
+  }
+
+  .hero-photo img {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 72% center;
+    border-radius: 16px;
+    box-shadow: 0 24px 60px rgba(5, 10, 20, 0.45);
+    filter: saturate(0.9);
+  }
+
+  /* ---------- 2. BACKGROUND: zdjęcie pod navbarem z granatową nakładką ---------- */
+  /* Obszar pod navbarem — zdjęcie zaczyna się dopiero tu, navbar zostaje na czystym tle */
+  .hero-main { position: relative; }
+
+  .bg-photo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .bg-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 72% 0%;
+    filter: saturate(0.85);
+  }
+
+  .hero--background .bg-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg,
+        oklch(0.22 0.02 256) 0%,
+        oklch(0.22 0.02 256 / 0.92) 38%,
+        oklch(0.22 0.02 256 / 0.55) 68%,
+        oklch(0.22 0.02 256 / 0.35) 100%),
+      linear-gradient(180deg, oklch(0.22 0.02 256 / 0.7) 0px, transparent 60px);
+  }
+
+  .hero--background .hero-text,
+  .hero--fade .hero-text { max-width: 560px; }
+
+  .hero--background h1,
+  .hero--fade h1 { font-size: 60px; line-height: 1.04; }
+
+  .hero--background .hero-content,
+  .hero--fade .hero-content { padding-top: 110px; padding-bottom: 170px; }
+
+  /* ---------- 3. FADE: zdjęcie po prawej, miękko przechodzi w tło ---------- */
+  .hero--fade .bg-photo {
+    left: auto;
+    width: 52%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 50%);
+    mask-image: linear-gradient(90deg, transparent 0%, black 50%);
+  }
+
+  .hero--fade .bg-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, oklch(0.22 0.02 256 / 0.7) 0px, transparent 60px, transparent 60%, oklch(0.22 0.02 256 / 0.6) 100%);
+  }
+
+  /* Siatka, poświata i fale zostają nad zdjęciem — siatka trochę słabsza */
+  .hero--background .grid-overlay,
+  .hero--fade .grid-overlay { opacity: 0.6; }
+
+  /* ===== MOBILE (warianty) ===== */
+  @media (max-width: 820px) {
+    .hero--split .hero-content {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      text-align: center;
+    }
+    .hero--split h1 { font-size: 38px; }
+    .hero--split p { font-size: 16px; margin-left: auto; margin-right: auto; }
+    .hero--split .hero-ctas { justify-content: center; }
+    .hero-photo { max-width: 420px; margin: 0 auto; width: calc(100% - 16px); }
+    .hero-photo img { aspect-ratio: 4 / 3; object-position: 75% 30%; }
+    .hero-photo::before { transform: translate(10px, 10px); }
+
+    .hero--background .hero-content,
+    .hero--fade .hero-content { padding: 64px 24px 120px; text-align: center; }
+    .hero--background .hero-text,
+    .hero--fade .hero-text { max-width: none; }
+    .hero--background h1,
+    .hero--fade h1 { font-size: 40px; }
+    .hero--background p,
+    .hero--fade p { margin-left: auto; margin-right: auto; }
+    .hero--background .hero-ctas,
+    .hero--fade .hero-ctas { justify-content: center; }
+
+    .hero--background .bg-photo::after,
+    .hero--fade .bg-photo::after {
+      background: linear-gradient(180deg, oklch(0.22 0.02 256 / 0.75) 0%, oklch(0.22 0.02 256 / 0.88) 55%, oklch(0.22 0.02 256 / 0.95) 100%);
+    }
+    .hero--fade .bg-photo { width: 100%; -webkit-mask-image: none; mask-image: none; }
   }
 </style>
