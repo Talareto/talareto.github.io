@@ -3,6 +3,8 @@ title: "W 2021 r. podwyżka podatków od nieruchomości i nie tylko"
 description: "Od 2021 roku rosną maksymalne stawki podatku od nieruchomości, a także podatku rolnego i leśnego. Sprawdź, o ile i co to oznacza dla Twojej firmy."
 date: 2020-11-09
 category: Prawo i podatki
+cover: ./images/dokumenty-kalkulator.jpg
+coverAlt: "Analiza dokumentów podatkowych z kalkulatorem na biurku"
 author:
   name: "Zespół CanLead"
   role: "Biuro rachunkowe CanLead"

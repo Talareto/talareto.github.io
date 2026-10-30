@@ -20,6 +20,7 @@ const blog = defineCollection({
       }),
       cover: image().optional(), // zdjęcie okładki (plik obok artykułu); bez niego pokaże się grafika z logo
       coverAlt: z.string().optional(),
+      coverPosition: z.string().optional(), // kadrowanie okładki, np. "center 30%" — gdy ważna część zdjęcia jest wyżej/niżej
       summary: z.array(z.string()).optional(), // punkty do ramki „W skrócie”
       draft: z.boolean().default(false), // true = szkic, nie trafia na stronę
     }),

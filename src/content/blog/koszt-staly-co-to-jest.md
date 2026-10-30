@@ -3,6 +3,9 @@ title: "Koszt stały — co to jest i jakie miejsce zajmuje w Twojej działalno�
 description: "Czym są koszty stałe, dlaczego amortyzacja to ich typowy przykład i jak nie wpaść w spiralę kosztów stałych. Wyjaśniamy na przykładzie zakładu krawieckiego."
 date: 2020-10-13
 category: Rachunkowość i controlling
+cover: ./images/praca-laptop.jpg
+coverAlt: "Przedsiębiorca pracujący na laptopie"
+coverPosition: "center 40%"
 author:
   name: "Zespół CanLead"
   role: "Biuro rachunkowe CanLead"
