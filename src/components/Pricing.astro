@@ -189,7 +189,13 @@ const groups = [
                     <li><span class="dot">✓</span>{f}</li>
                   ))}
                 </ul>
-                <a href="#kontakt" class={`plan-btn ${plan.highlighted ? "plan-btn-hot" : "plan-btn-default"}`}>Wybierz pakiet</a>
+                <a
+                  href="#kontakt"
+                  class={`plan-btn ${plan.highlighted ? "plan-btn-hot" : "plan-btn-default"}`}
+                  data-plan-name={plan.name}
+                  data-plan-details={`${plan.segment}, ${plan.limit}, ${plan.prefix ? plan.prefix + " " : ""}${plan.price} ${plan.period}`}
+                  data-plan-label={`${plan.name} · ${plan.limit}`}
+                >Wybierz pakiet</a>
               </div>
             ))}
           </div>
@@ -205,7 +211,7 @@ const groups = [
               Dla spółek z o.o. powyżej 500 rekordów księgowych, S.A. i większych organizacji,
               a także dla firm o nietypowym profilu. Przygotujemy ofertę dopasowaną do Twojej działalności.
             </p>
-            <a href="#kontakt" class="plan-btn plan-btn-hot">Poproś o wycenę</a>
+            <a href="#kontakt" class="plan-btn plan-btn-hot" data-plan-name="Wycena indywidualna" data-plan-custom data-plan-label="Wycena indywidualna">Poproś o wycenę</a>
           </div>
           <ul class="custom-features">
             {customFeatures.map((f) => (
