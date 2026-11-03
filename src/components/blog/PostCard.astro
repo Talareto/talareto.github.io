@@ -13,7 +13,7 @@ const fmt = new Intl.DateTimeFormat("pl-PL", { day: "numeric", month: "long", ye
 ---
 
 <a href={`/blog/${post.id}/`} class="post-card" data-category={data.category}>
-  <ArticleCover category={data.category} cover={data.cover} alt={data.coverAlt} size="card" />
+  <ArticleCover category={data.category} cover={data.cover} alt={data.coverAlt} position={data.coverPosition} size="card" />
   <div class="body">
     <span class="tag">{data.category}</span>
     <h3>{data.title}</h3>

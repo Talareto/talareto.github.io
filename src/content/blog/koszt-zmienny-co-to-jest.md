@@ -3,6 +3,9 @@ title: "Koszt zmienny — co to jest i co możesz z nim zrobić?"
 description: "Czym różnią się koszty zmienne od stałych i jak zamiana części kosztów stałych na zmienne może poprawić rentowność firmy. Przykład zakładu krawieckiego z dziesięcioma maszynami."
 date: 2020-10-20
 category: Rachunkowość i controlling
+cover: ./images/sukces.jpg
+coverAlt: "Zadowolona przedsiębiorczyni z laptopem świętuje dobry wynik"
+coverPosition: "center 32%"
 author:
   name: "Zespół CanLead"
   role: "Biuro rachunkowe CanLead"
