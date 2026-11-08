@@ -1,11 +1,12 @@
 ---
 const categories = [
   {
-    label: "Księgowość i rachunkowość",
+    label: "Księgowość, rachunkowość, kadry i płace",
     services: [
       { title: "Księgowość JDG", desc: "Pełna obsługa jednoosobowych działalności — KPiR, zasady ogólne, podatek liniowy. Każda forma opodatkowania dopasowana do Twojej sytuacji." },
       { title: "Rachunkowość Sp. z o.o. i S.A.", desc: "Pełne księgi handlowe dla spółek kapitałowych. Specjalizujemy się w obsłudze sp. z o.o., w tym w rozliczeniach CIT-Estońskiego." },
       { title: "Wgląd do ksiąg w czasie rzeczywistym", desc: "Dostęp do programu księgowego i zapisów online — widzisz sytuację finansową firmy na bieżąco, bez czekania na raporty." },
+      { title: "Kadry i płace", desc: "Umowy, listy płac, rozliczenia ZUS i pełna dokumentacja pracownicza zgodnie z obowiązującymi przepisami." },
       { title: "Obsługa NGO — fundacje i stowarzyszenia", desc: "Kompleksowa obsługa bilansowa i podatkowa organizacji pozarządowych — fundacji i stowarzyszeń (innych niż fundacje rodzinne)." },
       { title: "Fundacje rodzinne — pełna obsługa", desc: "Pełna obsługa księgowa, podatkowa i administracyjna fundacji rodzinnych. Od rejestracji po bieżące rozliczenia." },
     ],
@@ -14,7 +15,6 @@ const categories = [
     label: "Doradztwo podatkowe i optymalizacje",
     services: [
       { title: "Optymalizacje podatkowe", desc: "Legalne struktury minimalizujące obciążenia podatkowe. Wybór formy opodatkowania, planowanie wypłat, holding — analizujemy każdy wariant." },
-      { title: "Kadry i płace", desc: "Umowy, listy płac, rozliczenia ZUS i pełna dokumentacja pracownicza zgodnie z obowiązującymi przepisami." },
       { title: "Zakładanie i restrukturyzacja firm", desc: "Rejestracja działalności, przekształcenia spółek, restrukturyzacje — dobieramy formę prawną i podatkową optymalną dla Twojego biznesu." },
       { title: "Upadłości konsumenckie", desc: "Dyskretna pomoc w przeprowadzeniu postępowania upadłościowego dla osób fizycznych — analiza sytuacji, przygotowanie wniosku, wsparcie na każdym etapie.", subtle: true },
     ],
@@ -29,7 +29,17 @@ const categories = [
       { title: "Nadzór i wykonywanie płatności", desc: "Realizacja płatności z rachunku klienta lub w jego imieniu z rachunku spółki CanLead. Pełna kontrola, zero opóźnień." },
     ],
   },
+  {
+    label: "Obsługa prawna przedsiębiorstw",
+    services: [
+      { title: "Pełna obsługa prawna prowadzonych działalności gospodarczych", desc: "Bieżące wsparcie prawne na każdym etapie działania firmy, od rejestracji i zmian w KRS po codzienne decyzje." },
+      { title: "Analizy prawne umów", desc: "Sprawdzamy umowy z kontrahentami, najmu, leasingu i współpracy, zanim je podpiszesz. Wskazujemy ryzykowne zapisy i kary umowne, które mogą kosztować najwięcej." },
+      { title: "Porady w zakresie prawa gospodarczego", desc: "Konkretne odpowiedzi na pytania o spółki, odpowiedzialność wspólników, zmiany formy prawnej i obowiązki przedsiębiorcy." },
+      { title: "Reprezentacja procesowa", desc: "Reprezentujemy Cię przed sądami i urzędami w sprawach gospodarczych, od windykacji należności po spory z kontrahentami. Przygotowujemy pisma, pilnujemy terminów i prowadzimy sprawę do końca." },
+    ],
+  },
 ];
+
 ---
 
 <section id="uslugi">
@@ -38,7 +48,7 @@ const categories = [
       <div class="eyebrow">Usługi</div>
       <h2>Kompleksowa obsługa księgowa w jednym miejscu.</h2>
       <p>
-        Od bieżącej księgowości po doradztwo biznesowe, prawne w tym
+        Od bieżącej księgowości po doradztwo biznesowe, prawne, w tym
         restrukturyzacyjne — zajmiemy się formalnościami, abyś mógł skupić
         się na rozwoju firmy.
       </p>
@@ -49,7 +59,7 @@ const categories = [
         <div class={`acc-item ${i === 0 ? "open" : ""}`} data-acc>
           <button class="acc-header" aria-expanded={i === 0 ? "true" : "false"}>
             <span class="acc-label">{cat.label}</span>
-            <span class="acc-count">{cat.services.length} usług</span>
+            <span class="acc-count">{cat.services.length} {cat.services.length >= 2 && cat.services.length <= 4 ? "usługi" : "usług"}</span>
             <svg class="acc-arrow" viewBox="0 0 20 20" fill="none">
               <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
