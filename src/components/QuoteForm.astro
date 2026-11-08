@@ -1,0 +1,578 @@
+---
+// Formularz zapytania o wycenę — otwiera się po kliknięciu „Wybierz pakiet” lub „Poproś o wycenę” w cenniku.
+// Wysyłka: src/scripts/send-form.ts → public/api/wyslij.php (SMTP skrzynki biura).
+
+const forms = [
+  { value: "JDG", label: "Jednoosobowa działalność (JDG)" },
+  { value: "Sp. j.", label: "Spółka jawna (Sp. j.)" },
+  { value: "Sp. p.", label: "Spółka partnerska (Sp. p.)" },
+  { value: "Sp. z o.o.", label: "Spółka z o.o." },
+  { value: "S.A.", label: "Spółka akcyjna (S.A.)" },
+  { value: "P.S.A.", label: "Prosta spółka akcyjna (P.S.A.)" },
+  { value: "NGO", label: "Organizacja pozarządowa (fundacja, stowarzyszenie)" },
+];
+
+const yesNo = [
+  { name: "vat", label: "Czynny podatnik VAT" },
+  { name: "dotacje", label: "Rozliczanie dotacji" },
+  { name: "leasingi", label: "Leasingi" },
+  { name: "srodki_trwale", label: "Środki trwałe" },
+];
+---
+
+<dialog class="quote" id="quote-dialog" aria-labelledby="quote-title">
+  <form class="quote-form" id="quote-form" novalidate>
+    <header class="quote-head">
+      <div>
+        <div class="quote-eyebrow">Zapytanie o wycenę</div>
+        <h2 id="quote-title">Opowiedz nam o swojej firmie</h2>
+        <div class="plan-chip" id="quote-plan">
+          <span class="plan-chip-label">Wybrany pakiet:</span>
+          <strong id="quote-plan-name">—</strong>
+          <span class="plan-chip-details" id="quote-plan-details"></span>
+        </div>
+      </div>
+      <button type="button" class="close" data-close aria-label="Zamknij formularz">×</button>
+    </header>
+
+    <div class="quote-body">
+      <input type="hidden" name="pakiet" id="q-pakiet" />
+      <!-- Pułapka na boty: pole niewidoczne dla ludzi -->
+      <div class="hp" aria-hidden="true">
+        <label for="q-website">Strona www</label>
+        <input id="q-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <!-- 1. Kontakt -->
+      <fieldset>
+        <legend><span class="step">1</span> Dane kontaktowe</legend>
+        <div class="grid">
+          <div class="field span-2">
+            <label for="q-name">Imię i nazwisko <span class="req">*</span></label>
+            <input id="q-name" name="imie_nazwisko" type="text" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="q-email">E-mail <span class="req">*</span></label>
+            <input id="q-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="q-phone">Telefon <span class="req">*</span></label>
+            <input id="q-phone" name="telefon" type="tel" autocomplete="tel" required />
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- 2. Firma -->
+      <fieldset>
+        <legend><span class="step">2</span> Firma</legend>
+        <div class="grid">
+          <div class="field">
+            <label for="q-city">Miasto <span class="req">*</span></label>
+            <input id="q-city" name="miasto" type="text" autocomplete="address-level2" required />
+          </div>
+          <div class="field">
+            <label for="q-zip">Kod pocztowy <span class="req">*</span></label>
+            <input id="q-zip" name="kod_pocztowy" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="99-300" pattern="\d{2}-\d{3}" maxlength="6" required />
+          </div>
+          <div class="field span-2">
+            <label for="q-form">Forma prowadzenia działalności <span class="req">*</span></label>
+            <select id="q-form" name="forma_dzialalnosci" required>
+              <option value="" disabled selected>Wybierz…</option>
+              {forms.map((f) => <option value={f.value}>{f.label}</option>)}
+            </select>
+          </div>
+          <div class="field">
+            <label for="q-nip">NIP <span class="req" id="q-nip-req">*</span></label>
+            <input id="q-nip" name="nip" type="text" inputmode="numeric" placeholder="np. 775-264-59-44" maxlength="13" required />
+            <label class="check-inline">
+              <input type="checkbox" id="q-new-company" name="firma_w_zakladaniu" value="tak" />
+              Dopiero zakładam firmę
+            </label>
+          </div>
+          <div class="field">
+            <label for="q-pkd">Przeważający rodzaj działalności <span class="req">*</span></label>
+            <input id="q-pkd" name="rodzaj_dzialalnosci" type="text" placeholder="np. usługi budowlane, handel, IT" required />
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- 3. Księgowość -->
+      <fieldset>
+        <legend><span class="step">3</span> Księgowość</legend>
+        <div class="toggles">
+          {yesNo.map((q) => (
+            <div class="toggle-row" role="radiogroup" aria-labelledby={`q-${q.name}-label`}>
+              <span class="toggle-label" id={`q-${q.name}-label`}>{q.label} <span class="req">*</span></span>
+              <div class="seg">
+                <input type="radio" id={`q-${q.name}-tak`} name={q.name} value="tak" required />
+                <label for={`q-${q.name}-tak`}>Tak</label>
+                <input type="radio" id={`q-${q.name}-nie`} name={q.name} value="nie" />
+                <label for={`q-${q.name}-nie`}>Nie</label>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="grid grid-numbers">
+          <div class="field" id="q-partners-field">
+            <label for="q-partners">Liczba udziałowców / wspólników <span class="req">*</span></label>
+            <input id="q-partners" name="liczba_wspolnikow" type="number" min="1" step="1" inputmode="numeric" required />
+          </div>
+          <div class="field">
+            <label for="q-employees">Liczba pracowników <span class="req">*</span></label>
+            <input id="q-employees" name="liczba_pracownikow" type="number" min="0" step="1" inputmode="numeric" required />
+            <span class="hint">Wpisz 0, jeśli nikogo nie zatrudniasz.</span>
+          </div>
+          <div class="field">
+            <label for="q-buy">Średnio dokumentów zakupowych miesięcznie <span class="req">*</span></label>
+            <input id="q-buy" name="dokumenty_zakupowe_mies" type="number" min="0" step="1" inputmode="numeric" required />
+          </div>
+          <div class="field">
+            <label for="q-sell">Średnio dokumentów sprzedażowych miesięcznie <span class="req">*</span></label>
+            <input id="q-sell" name="dokumenty_sprzedazowe_mies" type="number" min="0" step="1" inputmode="numeric" required />
+          </div>
+          <div class="field span-2">
+            <label for="q-notes">Dodatkowe informacje <span class="optional">(opcjonalnie)</span></label>
+            <textarea id="q-notes" name="uwagi" rows="3" placeholder="Np. od kiedy chcesz zmienić biuro, nietypowe sytuacje, pytania"></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <label class="consent">
+        <input type="checkbox" id="q-consent" required />
+        <span>Wyrażam zgodę na przetwarzanie podanych danych w celu przygotowania wyceny, zgodnie z <a href="/polityka-prywatnosci" target="_blank">polityką prywatności</a>. <span class="req">*</span></span>
+      </label>
+
+      <p class="form-error" id="quote-error" role="alert" hidden></p>
+    </div>
+
+    <footer class="quote-foot">
+      <span class="foot-note">Odpowiadamy w ciągu jednego dnia roboczego.</span>
+      <div class="foot-actions">
+        <button type="button" class="btn-ghost" data-close>Anuluj</button>
+        <button type="submit" class="btn-send" id="quote-submit">Wyślij zapytanie</button>
+      </div>
+    </footer>
+  </form>
+
+  <div class="quote-success" id="quote-success" hidden>
+    <div class="success-icon" aria-hidden="true">✓</div>
+    <h2>Dziękujemy!</h2>
+    <p id="quote-success-text">Otrzymaliśmy Twoje zapytanie. Przygotujemy wycenę i odezwiemy się w ciągu jednego dnia roboczego.</p>
+    <button type="button" class="btn-send" data-close>Zamknij</button>
+  </div>
+</dialog>
+
+<script>
+  import { sendForm, OFFICE_EMAIL } from "../scripts/send-form";
+
+  const dialog = document.getElementById("quote-dialog") as HTMLDialogElement;
+  const form = document.getElementById("quote-form") as HTMLFormElement;
+  const success = document.getElementById("quote-success") as HTMLDivElement;
+  const successText = document.getElementById("quote-success-text") as HTMLParagraphElement;
+  const errorBox = document.getElementById("quote-error") as HTMLParagraphElement;
+  const submitBtn = document.getElementById("quote-submit") as HTMLButtonElement;
+  const planName = document.getElementById("quote-plan-name")!;
+  const planDetails = document.getElementById("quote-plan-details")!;
+  const planInput = document.getElementById("q-pakiet") as HTMLInputElement;
+  const formSelect = document.getElementById("q-form") as HTMLSelectElement;
+  const partnersField = document.getElementById("q-partners-field")!;
+  const partnersInput = document.getElementById("q-partners") as HTMLInputElement;
+  const nip = document.getElementById("q-nip") as HTMLInputElement;
+  const nipReq = document.getElementById("q-nip-req")!;
+  const newCompany = document.getElementById("q-new-company") as HTMLInputElement;
+  const zip = document.getElementById("q-zip") as HTMLInputElement;
+
+  const honeypot = document.getElementById("q-website") as HTMLInputElement;
+  let openedAt = 0;
+
+  // --- Otwieranie z cennika ---
+  document.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-plan-name]");
+    if (!btn) return;
+    e.preventDefault();
+    openFor(btn);
+  });
+
+  function openFor(btn: HTMLElement) {
+    const name = btn.dataset.planName ?? "";
+    const details = btn.dataset.planDetails ?? "";
+    planName.textContent = name;
+    planDetails.textContent = details ? `· ${details}` : "";
+    planInput.value = details ? `${name} (${details})` : name;
+
+    // Podpowiedz formę działalności na podstawie pakietu (tylko jeśli nic jeszcze nie wybrano)
+    if (!formSelect.value) {
+      const group = btn.dataset.planGroup;
+      if (group === "jdg") formSelect.value = "JDG";
+      if (group === "spolki") formSelect.value = "Sp. z o.o.";
+    }
+    syncPartners();
+
+    form.hidden = false;
+    success.hidden = true;
+    errorBox.hidden = true;
+    openedAt = Date.now();
+    dialog.showModal();
+    document.documentElement.classList.add("quote-open");
+    setTimeout(() => (document.getElementById("q-name") as HTMLInputElement)?.focus(), 50);
+  }
+
+  function close() {
+    dialog.close();
+  }
+  dialog.addEventListener("close", () => document.documentElement.classList.remove("quote-open"));
+  dialog.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", close));
+  // Kliknięcie w tło zamyka okno
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) close();
+  });
+
+  // --- Zależności między polami ---
+  function syncPartners() {
+    const isJdg = formSelect.value === "JDG";
+    partnersField.hidden = isJdg;
+    partnersInput.required = !isJdg;
+    if (isJdg) partnersInput.value = "1";
+    else if (partnersInput.value === "1" && !partnersInput.dataset.touched) partnersInput.value = "";
+  }
+  formSelect.addEventListener("change", syncPartners);
+  partnersInput.addEventListener("input", () => (partnersInput.dataset.touched = "1"));
+
+  newCompany.addEventListener("change", () => {
+    nip.disabled = newCompany.checked;
+    nip.required = !newCompany.checked;
+    nipReq.hidden = newCompany.checked;
+    if (newCompany.checked) { nip.value = ""; clearError(nip); }
+  });
+
+  // Kod pocztowy: automatyczny myślnik
+  zip.addEventListener("input", () => {
+    const d = zip.value.replace(/\D/g, "").slice(0, 5);
+    zip.value = d.length > 2 ? `${d.slice(0, 2)}-${d.slice(2)}` : d;
+  });
+
+  // --- Walidacja ---
+  function validNip(v: string) {
+    const d = v.replace(/\D/g, "");
+    if (d.length !== 10) return false;
+    const w = [6, 5, 7, 2, 3, 4, 5, 6, 7];
+    const sum = w.reduce((s, x, i) => s + x * Number(d[i]), 0);
+    return sum % 11 === Number(d[9]);
+  }
+
+  function setError(el: HTMLElement, msg: string) {
+    const field = el.closest(".field, .toggle-row, .consent") as HTMLElement | null;
+    if (!field) return;
+    field.classList.add("has-error");
+    let m = field.querySelector(".error-msg") as HTMLElement | null;
+    if (!m) {
+      m = document.createElement("span");
+      m.className = "error-msg";
+      field.appendChild(m);
+    }
+    m.textContent = msg;
+  }
+  function clearError(el: HTMLElement) {
+    const field = el.closest(".field, .toggle-row, .consent") as HTMLElement | null;
+    field?.classList.remove("has-error");
+    field?.querySelector(".error-msg")?.remove();
+  }
+  form.addEventListener("input", (e) => clearError(e.target as HTMLElement));
+  form.addEventListener("change", (e) => clearError(e.target as HTMLElement));
+
+  function validate(): HTMLElement | null {
+    let first: HTMLElement | null = null;
+    const fail = (el: HTMLElement, msg: string) => { setError(el, msg); first ??= el; };
+
+    form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>("input, select, textarea").forEach((el) => {
+      if (el.disabled || (el as HTMLInputElement).type === "hidden") return;
+      if (el.closest("[hidden]")) return;
+      const input = el as HTMLInputElement;
+      if (input.type === "radio") return; // sprawdzane grupami niżej
+      if (input.type === "checkbox") {
+        if (input.required && !input.checked) fail(input, "Ta zgoda jest potrzebna, żebyśmy mogli przygotować wycenę.");
+        return;
+      }
+      if (el.required && !el.value.trim()) return fail(el, "To pole jest wymagane.");
+      if (input.type === "email" && el.value && !input.validity.valid) return fail(el, "Wpisz poprawny adres e-mail.");
+      if (input.type === "number" && el.value && !input.validity.valid) return fail(el, "Wpisz liczbę całkowitą.");
+      if (el === zip && el.value && !/^\d{2}-\d{3}$/.test(el.value)) return fail(el, "Kod w formacie 00-000.");
+      if (el === nip && el.value && !validNip(el.value)) return fail(el, "Ten NIP wygląda na niepoprawny — sprawdź cyfry.");
+      if ((el as HTMLInputElement).name === "telefon" && el.value.replace(/\D/g, "").length < 9) return fail(el, "Wpisz co najmniej 9 cyfr.");
+    });
+
+    form.querySelectorAll<HTMLElement>(".toggle-row").forEach((row) => {
+      const checked = row.querySelector("input:checked");
+      if (!checked) fail(row.querySelector("input") as HTMLElement, "Wybierz tak lub nie.");
+    });
+    return first;
+  }
+
+  // --- Wysyłka ---
+  const LABELS: Record<string, string> = {
+    pakiet: "Pakiet",
+    imie_nazwisko: "Imię i nazwisko",
+    email: "E-mail",
+    telefon: "Telefon",
+    miasto: "Miasto",
+    kod_pocztowy: "Kod pocztowy",
+    forma_dzialalnosci: "Forma działalności",
+    nip: "NIP",
+    firma_w_zakladaniu: "Firma w trakcie zakładania",
+    rodzaj_dzialalnosci: "Przeważający rodzaj działalności",
+    vat: "Czynny podatnik VAT",
+    dotacje: "Rozlicza dotacje",
+    leasingi: "Leasingi",
+    srodki_trwale: "Środki trwałe",
+    liczba_wspolnikow: "Liczba udziałowców / wspólników",
+    liczba_pracownikow: "Liczba pracowników",
+    dokumenty_zakupowe_mies: "Dokumenty zakupowe / mies.",
+    dokumenty_sprzedazowe_mies: "Dokumenty sprzedażowe / mies.",
+    uwagi: "Dodatkowe informacje",
+  };
+
+  function collect() {
+    const data = new FormData(form);
+    const out: Record<string, string> = {};
+    for (const key of Object.keys(LABELS)) {
+      const v = data.get(key);
+      if (v !== null && String(v).trim() !== "") out[key] = String(v).trim();
+    }
+    return out;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorBox.hidden = true;
+    const firstBad = validate();
+    if (firstBad) {
+      firstBad.focus();
+      firstBad.scrollIntoView({ block: "center", behavior: "smooth" });
+      return;
+    }
+
+    const data = collect();
+    const subject = `Zapytanie o wycenę: ${data.pakiet ?? "pakiet"} — ${data.imie_nazwisko}`;
+    const body = Object.entries(data).map(([k, v]) => `${LABELS[k]}: ${v}`).join("\n");
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Wysyłanie…";
+    const result = await sendForm("wycena", data, { website: honeypot.value, startedAt: openedAt }, { subject, body });
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Wyślij zapytanie";
+
+    if (result.status === "error") {
+      errorBox.textContent = result.message;
+      errorBox.hidden = false;
+      errorBox.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      return;
+    }
+    successText.textContent =
+      result.status === "sent"
+        ? "Otrzymaliśmy Twoje zapytanie. Przygotujemy wycenę i odezwiemy się w ciągu jednego dnia roboczego."
+        : `Otworzyliśmy Twój program pocztowy z gotową wiadomością do ${OFFICE_EMAIL}. Wyślij ją, a przygotujemy wycenę i odezwiemy się w ciągu jednego dnia roboczego.`;
+    if (result.status === "sent") form.reset();
+    form.hidden = true;
+    success.hidden = false;
+  });
+</script>
+
+<style>
+  :global(html.quote-open) { overflow: hidden; }
+
+  .quote {
+    width: min(760px, calc(100vw - 32px));
+    max-height: calc(100dvh - 48px);
+    padding: 0;
+    border: none;
+    border-radius: 16px;
+    background: #fff;
+    color: oklch(0.3 0.02 256);
+    box-shadow: 0 30px 80px rgba(10, 16, 28, 0.35);
+    overflow: hidden;
+  }
+  .quote[open] { display: flex; flex-direction: column; animation: quoteIn 0.25s ease; }
+  .quote::backdrop { background: rgba(15, 21, 33, 0.6); backdrop-filter: blur(2px); }
+  @keyframes quoteIn { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: none; } }
+
+  .quote-form { display: flex; flex-direction: column; min-height: 0; max-height: calc(100dvh - 48px); }
+  .quote-form[hidden] { display: none; }
+
+  /* Nagłówek */
+  .quote-head {
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
+    padding: 26px 30px 20px;
+    background: oklch(0.22 0.02 256);
+    color: #fff;
+  }
+  .quote-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: oklch(0.72 0.09 32); }
+  .quote-head h2 { margin-top: 8px; font-size: 24px; font-weight: 700; line-height: 1.2; color: #fff; }
+  .plan-chip {
+    display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 4px 6px;
+    margin-top: 14px; padding: 8px 12px;
+    border-radius: 8px;
+    background: oklch(1 0 0 / 0.08);
+    border: 1px solid oklch(1 0 0 / 0.14);
+    font-size: 13.5px; color: oklch(0.78 0.015 256);
+  }
+  .plan-chip strong { color: #fff; font-weight: 700; }
+  .plan-chip-details { color: oklch(0.72 0.015 256); }
+  .close {
+    flex-shrink: 0; width: 36px; height: 36px;
+    border: none; border-radius: 8px;
+    background: oklch(1 0 0 / 0.08); color: #fff;
+    font-size: 22px; line-height: 1; cursor: pointer;
+  }
+  .close:hover { background: oklch(1 0 0 / 0.16); }
+
+  /* Treść */
+  .quote-body { padding: 8px 30px 24px; overflow-y: auto; overscroll-behavior: contain; }
+
+  fieldset { border: none; margin: 0; padding: 22px 0 6px; border-bottom: 1px solid oklch(0.93 0.006 256); }
+  legend {
+    float: left; width: 100%;
+    display: flex; align-items: center; gap: 10px;
+    padding: 0; margin-bottom: 14px;
+    font-size: 16px; font-weight: 700; color: oklch(0.22 0.02 256);
+  }
+  .step {
+    width: 24px; height: 24px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: oklch(0.46 0.1 32); color: #fff;
+    font-size: 12.5px; font-weight: 700;
+  }
+
+  legend + * { clear: both; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+  .grid-numbers { margin-top: 18px; }
+  .span-2 { grid-column: 1 / -1; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field[hidden] { display: none; }
+
+  label, .toggle-label { font-size: 13.5px; font-weight: 600; color: oklch(0.35 0.02 256); }
+  .req { color: oklch(0.5 0.1 32); }
+  .optional { font-weight: 400; color: oklch(0.55 0.018 256); }
+  .hint { font-size: 12.5px; color: oklch(0.52 0.018 256); }
+
+  input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid oklch(0.88 0.008 256);
+    border-radius: 8px;
+    background: #fff;
+    font: inherit; font-size: 15px;
+    color: oklch(0.25 0.02 256);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: oklch(0.46 0.1 32);
+    box-shadow: 0 0 0 3px oklch(0.46 0.1 32 / 0.15);
+  }
+  input:disabled { background: oklch(0.96 0.004 256); color: oklch(0.6 0.01 256); }
+  textarea { resize: vertical; }
+
+  .check-inline {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 500; color: oklch(0.45 0.02 256);
+    cursor: pointer;
+  }
+  .check-inline input { width: 16px; height: 16px; accent-color: oklch(0.46 0.1 32); }
+
+  /* Pułapka na boty — poza ekranem */
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  /* Przełączniki tak / nie */
+  .toggles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+  .toggle-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    flex-wrap: wrap;
+    padding: 10px 12px;
+    border: 1px solid oklch(0.92 0.006 256);
+    border-radius: 10px;
+  }
+  .seg { display: inline-flex; padding: 3px; border-radius: 8px; background: oklch(0.95 0.005 256); }
+  .seg input { position: absolute; opacity: 0; pointer-events: none; }
+  .seg label {
+    padding: 6px 14px; border-radius: 6px;
+    font-size: 13.5px; font-weight: 600; color: oklch(0.45 0.02 256);
+    cursor: pointer; transition: background 0.15s, color 0.15s;
+  }
+  .seg input:checked + label { background: oklch(0.22 0.02 256); color: #fff; }
+  .seg input:focus-visible + label { outline: 2px solid oklch(0.46 0.1 32); outline-offset: 1px; }
+
+  /* Zgoda */
+  .consent {
+    display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap;
+    margin-top: 20px;
+    font-size: 13px; font-weight: 400; line-height: 1.5; color: oklch(0.42 0.02 256);
+    cursor: pointer;
+  }
+  .consent > input { margin-top: 3px; width: 16px; height: 16px; accent-color: oklch(0.46 0.1 32); flex-shrink: 0; }
+  .consent > span { flex: 1; min-width: 0; }
+  .consent a { color: oklch(0.46 0.1 32); text-decoration: underline; }
+
+  /* Błędy */
+  .has-error input, .has-error select, .has-error textarea { border-color: oklch(0.55 0.18 25); }
+  .toggle-row.has-error { border-color: oklch(0.55 0.18 25); }
+  /* Komunikaty błędów są dodawane skryptem, więc potrzebują stylu globalnego */
+  .quote :global(.error-msg) { flex-basis: 100%; font-size: 12.5px; font-weight: 500; line-height: 1.4; color: oklch(0.5 0.18 25); }
+  .form-error {
+    margin-top: 16px; padding: 12px 14px; border-radius: 8px;
+    background: oklch(0.96 0.03 25); color: oklch(0.42 0.14 25);
+    font-size: 14px;
+  }
+
+  /* Stopka okna */
+  .quote-foot {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 16px 30px;
+    border-top: 1px solid oklch(0.92 0.006 256);
+    background: oklch(0.985 0.003 256);
+  }
+  .foot-note { font-size: 13px; color: oklch(0.5 0.018 256); }
+  .foot-actions { display: flex; gap: 10px; }
+  .btn-ghost, .btn-send {
+    padding: 12px 20px; border-radius: 8px;
+    font: inherit; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: opacity 0.2s, border-color 0.2s;
+  }
+  .btn-ghost { background: transparent; border: 1px solid oklch(0.86 0.008 256); color: oklch(0.3 0.02 256); }
+  .btn-ghost:hover { border-color: oklch(0.6 0.02 256); }
+  .btn-send { background: oklch(0.46 0.1 32); border: none; color: #fff; }
+  .btn-send:hover { opacity: 0.9; }
+  .btn-send:disabled { opacity: 0.6; cursor: wait; }
+
+  /* Sukces */
+  .quote-success { padding: 48px 32px; text-align: center; }
+  .quote-success[hidden] { display: none; }
+  .success-icon {
+    width: 56px; height: 56px; margin: 0 auto;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: oklch(0.94 0.05 150); color: oklch(0.45 0.12 150);
+    font-size: 28px; font-weight: 700;
+  }
+  .quote-success h2 { margin-top: 18px; font-size: 24px; font-weight: 700; color: oklch(0.22 0.02 256); }
+  .quote-success p { margin: 10px auto 24px; max-width: 420px; font-size: 15.5px; line-height: 1.6; color: oklch(0.45 0.02 256); }
+
+  /* Telefon: okno na cały ekran */
+  @media (max-width: 640px) {
+    .quote {
+      width: 100vw; max-width: 100vw;
+      height: 100dvh; max-height: 100dvh;
+      border-radius: 0;
+      margin: 0;
+    }
+    .quote-form { max-height: 100dvh; height: 100%; }
+    .quote-head { padding: 20px 18px 16px; }
+    .quote-head h2 { font-size: 20px; }
+    .plan-chip { font-size: 12.5px; padding: 6px 10px; }
+    .quote-body { padding: 4px 18px 20px; flex: 1; }
+    .grid, .toggles { grid-template-columns: 1fr; }
+    .quote-foot { padding: 12px 18px; flex-direction: column; align-items: stretch; gap: 8px; }
+    .foot-note { text-align: center; }
+    .foot-actions { display: grid; grid-template-columns: 1fr 2fr; }
+  }
+</style>

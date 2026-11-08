@@ -15,29 +15,104 @@
       </div>
     </div>
     <div class="form-card">
-      <div class="form-row">
-        <div class="field">
-          <label for="name">Imię i nazwisko</label>
-          <input id="name" type="text"/>
+      <form id="contact-form" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Imię i nazwisko <span class="req">*</span></label>
+            <input id="name" name="imie_nazwisko" type="text" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="phone">Telefon</label>
+            <input id="phone" name="telefon" type="tel" autocomplete="tel" />
+          </div>
         </div>
         <div class="field">
-          <label for="phone">Telefon</label>
-          <input id="phone" type="tel" />
+          <label for="email">E-mail <span class="req">*</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
         </div>
-      </div>
-      <div class="field">
-        <label for="email">E-mail</label>
-        <input id="email" type="email" />
-      </div>
-      <div class="field">
-        <label for="message">Wiadomość</label>
-        <textarea id="message" rows="4" placeholder="W czym możemy pomóc?"></textarea>
-      </div>
-      <button type="button" class="submit-btn">Wyślij wiadomość</button>
-      <p class="disclaimer">Wysyłając formularz, akceptujesz przetwarzanie danych w celu kontaktu zgodnie z <a href="/polityka-prywatnosci">polityką prywatności</a>.</p>
+        <div class="field">
+          <label for="message">Wiadomość <span class="req">*</span></label>
+          <textarea id="message" name="wiadomosc" rows="4" placeholder="W czym możemy pomóc?" required></textarea>
+        </div>
+        <!-- Pułapka na boty: pole niewidoczne dla ludzi -->
+        <div class="hp" aria-hidden="true">
+          <label for="c-website">Strona www</label>
+          <input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <button type="submit" class="submit-btn" id="contact-submit">Wyślij wiadomość</button>
+        <p class="form-status" id="contact-status" role="status" hidden></p>
+        <p class="disclaimer">Wysyłając formularz, akceptujesz przetwarzanie danych w celu kontaktu zgodnie z <a href="/polityka-prywatnosci">polityką prywatności</a>.</p>
+      </form>
     </div>
   </div>
 </section>
+
+<script>
+  import { sendForm, OFFICE_EMAIL } from "../scripts/send-form";
+
+  const form = document.getElementById("contact-form") as HTMLFormElement;
+  const submit = document.getElementById("contact-submit") as HTMLButtonElement;
+  const status = document.getElementById("contact-status") as HTMLParagraphElement;
+  const loadedAt = Date.now();
+
+  function setError(el: HTMLElement, msg: string) {
+    const field = el.closest(".field") as HTMLElement;
+    field.classList.add("has-error");
+    let m = field.querySelector(".error-msg") as HTMLElement | null;
+    if (!m) { m = document.createElement("span"); m.className = "error-msg"; field.appendChild(m); }
+    m.textContent = msg;
+  }
+  form.addEventListener("input", (e) => {
+    const field = (e.target as HTMLElement).closest(".field");
+    field?.classList.remove("has-error");
+    field?.querySelector(".error-msg")?.remove();
+  });
+
+  function showStatus(kind: "ok" | "error", text: string) {
+    status.textContent = text;
+    status.className = `form-status form-status--${kind}`;
+    status.hidden = false;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    status.hidden = true;
+    const fd = new FormData(form);
+    const get = (k: string) => String(fd.get(k) ?? "").trim();
+    const data: Record<string, string> = {
+      imie_nazwisko: get("imie_nazwisko"),
+      email: get("email"),
+      telefon: get("telefon"),
+      wiadomosc: get("wiadomosc"),
+    };
+
+    let first: HTMLElement | null = null;
+    const fail = (id: string, msg: string) => { const el = document.getElementById(id)!; setError(el, msg); first ??= el; };
+    if (!data.imie_nazwisko) fail("name", "Podaj imię i nazwisko.");
+    if (!data.email) fail("email", "Podaj adres e-mail.");
+    else if (!(document.getElementById("email") as HTMLInputElement).validity.valid) fail("email", "Wpisz poprawny adres e-mail.");
+    if (!data.wiadomosc) fail("message", "Napisz, w czym możemy pomóc.");
+    if (first) { (first as HTMLElement).focus(); return; }
+
+    submit.disabled = true;
+    submit.textContent = "Wysyłanie…";
+    const body = [`Imię i nazwisko: ${data.imie_nazwisko}`, `E-mail: ${data.email}`, data.telefon && `Telefon: ${data.telefon}`, "", data.wiadomosc]
+      .filter((l) => l !== "" && l !== undefined).join("\n");
+    const result = await sendForm("kontakt", data, { website: get("website"), startedAt: loadedAt },
+      { subject: `Wiadomość ze strony — ${data.imie_nazwisko}`, body });
+    submit.disabled = false;
+    submit.textContent = "Wyślij wiadomość";
+
+    if (result.status === "sent") {
+      form.reset();
+      showStatus("ok", "Dziękujemy! Wiadomość została wysłana — odezwiemy się w ciągu jednego dnia roboczego.");
+    } else if (result.status === "mailto") {
+      showStatus("ok", `Otworzyliśmy Twój program pocztowy z gotową wiadomością do ${OFFICE_EMAIL} — wystarczy ją wysłać.`);
+    } else {
+      showStatus("error", result.message);
+    }
+  });
+</script>
 
 <style>
   section {
@@ -108,6 +183,15 @@
   input:focus, textarea:focus { border-color: oklch(0.46 0.1 32); }
 
   textarea { resize: vertical; }
+
+  .req { color: oklch(0.5 0.1 32); }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .has-error input, .has-error textarea { border-color: oklch(0.55 0.18 25); }
+  .field :global(.error-msg) { font-size: 12.5px; font-weight: 500; color: oklch(0.5 0.18 25); }
+  .submit-btn:disabled { opacity: 0.6; cursor: wait; }
+  .form-status { margin-top: 14px; padding: 12px 14px; border-radius: 8px; font-size: 14px; line-height: 1.5; }
+  .form-status--ok { background: oklch(0.95 0.04 150); color: oklch(0.38 0.1 150); }
+  .form-status--error { background: oklch(0.96 0.03 25); color: oklch(0.42 0.14 25); }
 
   .submit-btn {
     padding: 15px; border-radius: 8px; border: none;

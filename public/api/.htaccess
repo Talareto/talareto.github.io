@@ -1,0 +1,6 @@
+# Blokada podglądu plików z ustawieniami i biblioteki — dostępny jest tylko wyslij.php
+<FilesMatch "^(config\.php|config\.example\.php)$">
+  Require all denied
+</FilesMatch>
+
+Options -Indexes
