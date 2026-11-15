@@ -2,22 +2,22 @@
 layout: ../layouts/LegalLayout.astro
 title: Regulamin strony
 description: Regulamin świadczenia usług drogą elektroniczną przez stronę internetową biura rachunkowego CanLead.
-updated: 29 października 2026
+updated: 15 listopada 2026
 ---
 
 ## 1. Postanowienia ogólne
 
-1. Regulamin określa zasady korzystania ze strony internetowej <mark>[ADRES STRONY, np. canlead.pl]</mark> (dalej: „Strona”) oraz zasady świadczenia usług drogą elektroniczną za jej pośrednictwem.
+1. Regulamin określa zasady korzystania ze strony internetowej **www.canlead.pl** (dalej: „Strona”) oraz zasady świadczenia usług drogą elektroniczną za jej pośrednictwem.
 2. Regulamin jest regulaminem, o którym mowa w art. 8 ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną.
-3. Właścicielem Strony i usługodawcą jest <mark>[PEŁNA NAZWA FIRMY]</mark> z siedzibą pod adresem <mark>[ADRES]</mark>, NIP <mark>[NIP]</mark>, <mark>[REGON lub numer KRS]</mark> (dalej: „Usługodawca”).
-4. Kontakt z Usługodawcą: e-mail <mark>[E-MAIL]</mark>, telefon <mark>[TELEFON]</mark>.
+3. Właścicielem Strony i usługodawcą jest **CanLead Sp. z o.o.**, ul. Grunwaldzka 12B/8, 99-300 Kutno, NIP 7752645944, REGON 101759528, KRS 0000505545 (dalej: „Usługodawca”).
+4. Kontakt z Usługodawcą: e-mail [biuro@canlead.pl](mailto:biuro@canlead.pl), telefon [+48 734 184 042](tel:+48734184042).
 5. Korzystanie ze Strony jest bezpłatne i oznacza akceptację Regulaminu.
 
 ## 2. Definicje
 
 - **Użytkownik** – każda osoba korzystająca ze Strony.
 - **Usługi elektroniczne** – usługi świadczone przez Usługodawcę za pośrednictwem Strony, opisane w punkcie 3.
-- **Formularz kontaktowy** – formularz na Stronie, za pomocą którego Użytkownik może wysłać wiadomość do Usługodawcy.
+- **Formularz kontaktowy** – formularz na Stronie, za pomocą którego Użytkownik może wysłać wiadomość do Usługodawcy, w tym formularz zapytania o wycenę wybranego pakietu.
 
 ## 3. Rodzaje usług świadczonych przez Stronę
 
@@ -54,7 +54,7 @@ Treści, grafiki, logo i układ Strony są chronione prawem autorskim i należą
 
 ## 8. Reklamacje
 
-1. Reklamacje dotyczące działania Strony i Usług elektronicznych można zgłaszać na adres e-mail <mark>[E-MAIL]</mark> lub listownie na adres siedziby Usługodawcy.
+1. Reklamacje dotyczące działania Strony i Usług elektronicznych można zgłaszać na adres e-mail [biuro@canlead.pl](mailto:biuro@canlead.pl) lub listownie na adres siedziby Usługodawcy.
 2. Reklamacja powinna zawierać dane kontaktowe Użytkownika oraz opis problemu.
 3. Usługodawca rozpatruje reklamację w terminie 14 dni od jej otrzymania i informuje Użytkownika o wyniku w sposób, w jaki reklamacja została złożona.
 
@@ -66,4 +66,4 @@ Zasady przetwarzania danych osobowych Użytkowników opisuje [Polityka prywatno�
 
 1. Usługodawca może zmienić Regulamin z ważnych przyczyn, w szczególności w razie zmiany przepisów lub zakresu usług na Stronie. Zmiany obowiązują od chwili ich opublikowania na Stronie.
 2. W sprawach nieuregulowanych Regulaminem stosuje się przepisy prawa polskiego, w szczególności Kodeksu cywilnego i ustawy o świadczeniu usług drogą elektroniczną.
-3. Regulamin obowiązuje od dnia <mark>[DATA WEJŚCIA W ŻYCIE]</mark>.
+3. Regulamin obowiązuje od dnia 15 listopada 2026 r..
