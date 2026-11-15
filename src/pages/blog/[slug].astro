@@ -1,6 +1,7 @@
 ---
 // Szablon pojedynczego artykułu: /blog/nazwa-pliku
 import { getCollection, render } from "astro:content";
+import { getImage } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
@@ -31,9 +32,27 @@ const related = posts
 
 const pageUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 const shareUrl = encodeURIComponent(pageUrl);
+
+// Podgląd linku (Facebook, LinkedIn) i dane artykułu dla Google
+const ogImage = data.cover
+  ? (await getImage({ src: data.cover, width: 1200, height: 630, fit: "cover", format: "jpg" })).src
+  : "/og-image.jpg";
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: data.title,
+  description: data.description,
+  image: new URL(ogImage, Astro.site ?? Astro.url).href,
+  datePublished: data.date.toISOString(),
+  dateModified: (data.updated ?? data.date).toISOString(),
+  author: { "@type": "Person", name: data.author.name, jobTitle: data.author.role },
+  publisher: { "@id": "https://canlead.pl/#firma", "@type": "Organization", name: "CanLead", logo: { "@type": "ImageObject", url: "https://canlead.pl/apple-touch-icon.png" } },
+  mainEntityOfPage: pageUrl,
+  inLanguage: "pl-PL",
+};
 ---
 
-<BaseLayout title={`${data.title} — CanLead`} description={data.description}>
+<BaseLayout title={`${data.title} — CanLead`} description={data.description} image={ogImage} type="article" jsonLd={articleLd}>
   <header class="article-header">
     <Navbar />
     <div class="header-inner">

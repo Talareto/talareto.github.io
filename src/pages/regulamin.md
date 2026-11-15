@@ -66,4 +66,4 @@ Zasady przetwarzania danych osobowych Użytkowników opisuje [Polityka prywatno�
 
 1. Usługodawca może zmienić Regulamin z ważnych przyczyn, w szczególności w razie zmiany przepisów lub zakresu usług na Stronie. Zmiany obowiązują od chwili ich opublikowania na Stronie.
 2. W sprawach nieuregulowanych Regulaminem stosuje się przepisy prawa polskiego, w szczególności Kodeksu cywilnego i ustawy o świadczeniu usług drogą elektroniczną.
-3. Regulamin obowiązuje od dnia 15 listopada 2026 r..
+3. Regulamin obowiązuje od dnia 15 listopada 2026 r..gas

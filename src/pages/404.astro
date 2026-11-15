@@ -1,0 +1,36 @@
+---
+// Strona „nie znaleziono” — pokazuje się, gdy ktoś wejdzie na nieistniejący adres
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout title="Nie znaleziono strony — CanLead" description="Ta strona nie istnieje lub została przeniesiona." noindex>
+  <header class="nf-header"><Navbar /></header>
+  <main class="nf">
+    <p class="code">404</p>
+    <h1>Nie znaleźliśmy tej strony</h1>
+    <p class="lead">Adres mógł się zmienić po przebudowie strony. Sprawdź, czego szukasz, poniżej.</p>
+    <div class="links">
+      <a class="primary" href="/">Strona główna</a>
+      <a href="/#uslugi">Usługi</a>
+      <a href="/#cennik">Cennik</a>
+      <a href="/blog/">Blog</a>
+      <a href="/#kontakt">Kontakt</a>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .nf-header { background: oklch(0.22 0.02 256); position: relative; }
+  .nf { max-width: 720px; margin: 0 auto; padding: 96px 24px 120px; text-align: center; }
+  .code { font-family: "Space Grotesk", sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 0.12em; color: oklch(0.5 0.1 32); }
+  h1 { font-size: 44px; line-height: 1.1; font-weight: 700; color: oklch(0.22 0.02 256); margin-top: 14px; }
+  .lead { font-size: 17px; line-height: 1.6; color: oklch(0.5 0.018 256); margin-top: 16px; }
+  .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 36px; }
+  .links a { padding: 11px 18px; border-radius: 6px; border: 1px solid oklch(0.88 0.008 256); color: oklch(0.3 0.02 256); font-weight: 600; font-size: 15px; transition: border-color 0.2s, color 0.2s; }
+  .links a:hover { border-color: oklch(0.46 0.1 32); color: oklch(0.46 0.1 32); }
+  .links a.primary { background: oklch(0.46 0.1 32); border-color: oklch(0.46 0.1 32); color: #fff; }
+  @media (max-width: 820px) { .nf { padding: 64px 20px 80px; } h1 { font-size: 30px; } }
+</style>

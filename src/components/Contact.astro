@@ -8,8 +8,8 @@
       <h2>Porozmawiajmy o Twojej księgowości</h2>
       <p>Zostaw wiadomość — odpowiadamy w ciągu jednego dnia roboczego i proponujemy bezpłatną konsultację bez zobowiązań.</p>
       <div class="contact-details">
-        <div class="detail"><span class="detail-label">Telefon</span><span class="detail-value">+48 734 184 042</span></div>
-        <div class="detail"><span class="detail-label">E-mail</span><span class="detail-value">biuro@canlead.pl</span></div>
+        <div class="detail"><span class="detail-label">Telefon</span><a class="detail-value" href="tel:+48734184042">+48 734 184 042</a></div>
+        <div class="detail"><span class="detail-label">E-mail</span><a class="detail-value" href="mailto:biuro@canlead.pl">biuro@canlead.pl</a></div>
         <div class="detail"><span class="detail-label">Adres</span><span class="detail-value">ul. Grunwaldzka 12B/8, 99-300 Kutno</span></div>
         <div class="detail"><span class="detail-label">Godziny pracy</span><span class="detail-value">Pn–Pt, 8:00–17:00</span></div>
       </div>
@@ -153,6 +153,8 @@
   .detail-label { font-size: 13px; color: oklch(0.55 0.018 256); }
 
   .detail-value { font-size: 16px; font-weight: 600; color: oklch(0.26 0.02 256); }
+  a.detail-value { transition: color 0.2s; }
+  a.detail-value:hover { color: oklch(0.46 0.1 32); }
 
   .form-card {
     background: #fff;

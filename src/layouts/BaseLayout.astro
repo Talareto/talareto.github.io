@@ -1,13 +1,28 @@
 ---
+// Wspólny <head> dla wszystkich stron: tytuł, opis, adres kanoniczny,
+// podgląd linku w social mediach (Open Graph) i dane strukturalne dla Google.
 interface Props {
   title?: string;
   description?: string;
+  image?: string; // obrazek podglądu linku (adres względny lub pełny); domyślnie /og-image.jpg
+  type?: "website" | "article";
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[]; // dane strukturalne schema.org
+  noindex?: boolean; // true = Google ma nie pokazywać tej strony (np. 404)
 }
 
 const {
   title = "CanLead — Biuro rachunkowe",
   description = "CanLead to spokój, przejrzystość i terminowość. Prowadzimy księgi, kadry i podatki.",
+  image = "/og-image.jpg",
+  type = "website",
+  jsonLd,
+  noindex = false,
 } = Astro.props;
+
+const site = Astro.site ?? new URL("https://canlead.pl");
+const canonical = new URL(Astro.url.pathname, site).href;
+const imageUrl = new URL(image, site).href;
+const ldList = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 
 <!doctype html>
@@ -17,6 +32,21 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <meta name="theme-color" content="#151b26" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="CanLead" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    {ldList.map((ld) => <script type="application/ld+json" set:html={JSON.stringify(ld)} />)}
+
+    <link rel="sitemap" href="/sitemap.xml" />
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

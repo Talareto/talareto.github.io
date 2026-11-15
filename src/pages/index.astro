@@ -11,9 +11,47 @@ import Pricing from "../components/Pricing.astro";
 import Blog from "../components/Blog.astro";
 import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
+
+// Wizytówka firmy dla Google (dane strukturalne). Zmieniasz adres/telefon na stronie — zmień też tutaj.
+const business = {
+  "@context": "https://schema.org",
+  "@type": "AccountingService",
+  "@id": "https://canlead.pl/#firma",
+  name: "CanLead Sp. z o.o.",
+  alternateName: "CanLead — Biuro rachunkowe",
+  description:
+    "Biuro rachunkowe: księgowość JDG i spółek, kadry i płace, doradztwo podatkowe, controlling oraz obsługa prawna firm.",
+  url: "https://canlead.pl/",
+  logo: "https://canlead.pl/apple-touch-icon.png",
+  image: "https://canlead.pl/og-image.jpg",
+  telephone: "+48 734 184 042",
+  email: "biuro@canlead.pl",
+  taxID: "7752645944",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "ul. Grunwaldzka 12B/8",
+    postalCode: "99-300",
+    addressLocality: "Kutno",
+    addressCountry: "PL",
+  },
+  areaServed: "PL",
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:00",
+      closes: "17:00",
+    },
+  ],
+  sameAs: ["https://www.facebook.com/profile.php?id=100064389210272"],
+};
 ---
 
-<BaseLayout title="CanLead — Biuro rachunkowe dla Twojej firmy">
+<BaseLayout
+  title="CanLead — Biuro rachunkowe | Księgowość, kadry, podatki"
+  description="Biuro rachunkowe CanLead. Księgowość JDG i spółek, kadry i płace, doradztwo podatkowe i controlling. Przejrzyste ceny i bezpłatna konsultacja."
+  jsonLd={business}
+>
   <Hero variant="split" />
   <Stats />
   <Services />
